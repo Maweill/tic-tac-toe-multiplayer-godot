@@ -4,5 +4,5 @@ namespace TicTacToeMultiplayer.scripts.events;
 
 public interface IJoinAttemptHandler : IGlobalSubscriber
 {
-	void HandleJoinAttempt(string ip);
+	void HandleJoinAttempt(string ip, int port);
 }

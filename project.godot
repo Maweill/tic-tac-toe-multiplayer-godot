@@ -15,6 +15,11 @@ run/main_scene="res://scenes/ui/multiplayer_configuration_menu/multiplayer_confi
 config/features=PackedStringArray("4.1", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameStateController="*res://scenes/autoload/game_state_controller/game_state_controller.tscn"
+MultiplayerController="*res://scenes/autoload/multiplayer_controller/multiplayer_controller.tscn"
+
 [display]
 
 window/size/viewport_width=1920

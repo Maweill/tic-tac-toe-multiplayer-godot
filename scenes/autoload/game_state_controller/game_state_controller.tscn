@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://copuo7hn24l44"]
+
+[ext_resource type="Script" path="res://scenes/autoload/game_state_controller/GameStateController.cs" id="1_vhc7h"]
+[ext_resource type="PackedScene" uid="uid://2p6nujn8n7ro" path="res://scenes/game_object/gameplay/gameplay.tscn" id="2_n5m8c"]
+
+[node name="GameStateController" type="Node"]
+script = ExtResource("1_vhc7h")
+_gameplayScene = ExtResource("2_n5m8c")

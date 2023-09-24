@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using Godot;
 using TicTacToeMultiplayer.scripts.event_bus_system;
 using TicTacToeMultiplayer.scripts.events;
@@ -50,10 +51,10 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 		
 		if (_hostAddressLineEdit.Text.Length > 0) {
 			Multiplayer.ConnectedToServer += OnConnectedToServer;
-			EventBus.RaiseEvent<IJoinAttemptHandler>(h => h?.HandleJoinAttempt(_hostAddressLineEdit.Text));
+			EventBus.RaiseEvent<IJoinAttemptHandler>(h => h?.HandleJoinAttempt(_hostAddressLineEdit.Text, 8765));
 		} else {
 			string localAddress = GetLocalAddress();
-			EventBus.RaiseEvent<IHostAttemptHandler>(h => h?.HandleHostAttempt(localAddress));
+			EventBus.RaiseEvent<IHostAttemptHandler>(h => h?.HandleHostAttempt(localAddress, 8765));
 		}
 	}
 
@@ -63,6 +64,7 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 		
 		_hostAddressLineEdit.Editable = false;
 		//TODO Change status to "Connected! Wait for the host to start the game."
+		
 	}
 
 	private void OnHostAddressChanged(string newtext)
@@ -74,9 +76,22 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 	{
 		string hostName = Dns.GetHostName();
 		IPHostEntry hostEntry = Dns.GetHostEntry(hostName);
-		List<string> localAddresses = hostEntry.AddressList.Where(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+		List<string> localAddresses = hostEntry.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork)
 		                                       .Select(ip => ip.ToString())
 		                                       .ToList();
 		return localAddresses.First();
+	}
+	
+	public static int GetAvailablePort()
+	{
+		using (Socket socket = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+		{
+			socket.Bind(new IPEndPoint(IPAddress.Any, 0));
+			IPEndPoint? ipEndPoint = socket.LocalEndPoint as IPEndPoint;
+			if (ipEndPoint == null) {
+				throw new System.Exception("Could not get local IP address");
+			}
+			return ipEndPoint.Port;
+		}
 	}
 }

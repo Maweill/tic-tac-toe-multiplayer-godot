@@ -8,7 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tic Tac Toe Multiplayer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tic Tac Toe Multiplayer/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project.godot" beforeDir="false" afterPath="$PROJECT_DIR$/project.godot" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scenes/ui/multiplayer_configuration_menu/MultiplayerConfigurationMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/ui/multiplayer_configuration_menu/MultiplayerConfigurationMenu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/ui/multiplayer_configuration_menu/multiplayer_configuration_menu.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/ui/multiplayer_configuration_menu/multiplayer_configuration_menu.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/events/IHostAttemptHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/events/IHostAttemptHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/events/IJoinAttemptHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/events/IJoinAttemptHandler.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,6 +93,7 @@
       <updated>1695457577094</updated>
       <workItem from="1695457577095" duration="119000" />
       <workItem from="1695457707435" duration="5359000" />
+      <workItem from="1695543360700" duration="5082000" />
     </task>
     <servers />
   </component>
