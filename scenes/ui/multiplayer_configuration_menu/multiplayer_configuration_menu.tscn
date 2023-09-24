@@ -2,13 +2,17 @@
 
 [ext_resource type="Script" path="res://scenes/ui/multiplayer_configuration_menu/MultiplayerConfigurationMenu.cs" id="1_3ndig"]
 
-[node name="MultiplayerConfigurationMenu" type="Control"]
+[node name="MultiplayerConfigurationMenu" type="Control" node_paths=PackedStringArray("_hostAddressLineEdit", "_connectButton", "_startGameButton")]
 layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3ndig")
+_hostAddressLineEdit = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/HostAddress")
+_connectButton = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/Connect")
+_startGameButton = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2/StartGame")
 metadata/_edit_use_anchors_ = true
 
 [node name="ConnectionPanel" type="Panel" parent="."]
