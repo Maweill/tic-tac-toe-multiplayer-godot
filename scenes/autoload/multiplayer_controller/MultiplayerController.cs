@@ -88,7 +88,7 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 
 		Multiplayer.MultiplayerPeer = _peer;
 		GD.Print("Waiting For Players!");
-		EventBus.RaiseEvent<IServerCreatedHandler>(h => h?.HandleServerCreated(ip));
+		EventBus.RaiseEvent<IServerCreatedHandler>(h => h?.HandleServerCreated(ip, port));
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]

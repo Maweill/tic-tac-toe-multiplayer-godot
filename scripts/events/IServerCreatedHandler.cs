@@ -4,5 +4,5 @@ namespace TicTacToeMultiplayer.scripts.events;
 
 public interface IServerCreatedHandler : IGlobalSubscriber
 {
-	void HandleServerCreated(string hostIp);
+	void HandleServerCreated(string hostIp, int port);
 }

@@ -16,18 +16,22 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 	private Button _connectButton = null!;
 	[Export]
 	private Button _startGameButton = null!;
+	[Export]
+	private Label _statusLabel = null!;
 
-	public void HandleServerCreated(string hostIp)
+	public void HandleServerCreated(string hostIp, int port)
 	{
-		_hostAddressLineEdit.Text = hostIp;
+		Multiplayer.PeerConnected += OnPeerConnected;
+		Multiplayer.PeerDisconnected += OnPeerDisconnected;
+		
+		_hostAddressLineEdit.Text = $"{hostIp}:{port}";
 		_hostAddressLineEdit.Editable = false;
 		_startGameButton.Visible = true;
+		_startGameButton.Disabled = true;
 	}
 
 	public override void _Ready()
 	{
-		_startGameButton.Visible = false;
-		
 		_hostAddressLineEdit.TextChanged += OnHostAddressChanged;
 		_connectButton.Pressed += OnConnectButtonPressed;
 		_startGameButton.Pressed += OnStartGameButtonPressed;
@@ -51,25 +55,57 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 		
 		if (_hostAddressLineEdit.Text.Length > 0) {
 			Multiplayer.ConnectedToServer += OnConnectedToServer;
-			EventBus.RaiseEvent<IJoinAttemptHandler>(h => h?.HandleJoinAttempt(_hostAddressLineEdit.Text, 8765));
+			Multiplayer.ConnectionFailed += OnConnectionFailed;
+			
+			string[] hostAddressParts = _hostAddressLineEdit.Text.Split(':');
+			string hostAddress = hostAddressParts[0];
+			int port = int.Parse(hostAddressParts[1]);
+			EventBus.RaiseEvent<IJoinAttemptHandler>(h => h?.HandleJoinAttempt(hostAddress, port));
 		} else {
 			string localAddress = GetLocalAddress();
-			EventBus.RaiseEvent<IHostAttemptHandler>(h => h?.HandleHostAttempt(localAddress, 8765));
+			EventBus.RaiseEvent<IHostAttemptHandler>(h => h?.HandleHostAttempt(localAddress, GetAvailablePort()));
 		}
+	}
+
+	private void OnPeerConnected(long id)
+	{
+		_startGameButton.Disabled = false;
+	}
+
+	private void OnPeerDisconnected(long id)
+	{
+		if (Multiplayer.GetPeers().Length > 1) {
+			return;
+		}
+		_startGameButton.Disabled = true;
 	}
 
 	private void OnConnectedToServer()
 	{
 		Multiplayer.ConnectedToServer -= OnConnectedToServer;
 		
-		_hostAddressLineEdit.Editable = false;
-		//TODO Change status to "Connected! Wait for the host to start the game."
+		ShowStatus("Connected!\nWait for the host to start the game", new Color(0, 1, 0));
+	}
+
+	private void OnConnectionFailed()
+	{
+		Multiplayer.ConnectionFailed -= OnConnectionFailed;
 		
+		_hostAddressLineEdit.Editable = true;
+		_connectButton.Disabled = false;
+		ShowStatus("Connection failed", new Color(1, 0, 0));
 	}
 
 	private void OnHostAddressChanged(string newtext)
 	{
 		_connectButton.Text = newtext.Length > 0 ? "Join" : "Host";
+	}
+	
+	private void ShowStatus(string text, Color color)
+	{
+		_statusLabel.Text = text;
+		_statusLabel.AddThemeColorOverride("font_color", color);
+		_statusLabel.Visible = true;
 	}
 
 	private string GetLocalAddress()

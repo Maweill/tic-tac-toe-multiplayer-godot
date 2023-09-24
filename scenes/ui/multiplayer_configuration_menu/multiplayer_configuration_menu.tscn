@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/ui/multiplayer_configuration_menu/MultiplayerConfigurationMenu.cs" id="1_3ndig"]
 
-[node name="MultiplayerConfigurationMenu" type="Control" node_paths=PackedStringArray("_hostAddressLineEdit", "_connectButton", "_startGameButton")]
+[node name="MultiplayerConfigurationMenu" type="Control" node_paths=PackedStringArray("_hostAddressLineEdit", "_connectButton", "_startGameButton", "_statusLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,6 +13,7 @@ script = ExtResource("1_3ndig")
 _hostAddressLineEdit = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/HostAddress")
 _connectButton = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/Connect")
 _startGameButton = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2/StartGame")
+_statusLabel = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2/Status")
 metadata/_edit_use_anchors_ = true
 
 [node name="ConnectionPanel" type="Panel" parent="."]
@@ -49,7 +50,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/margin_bottom = 20
 
-[node name="Status" type="Label" parent="ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="Header" type="Label" parent="ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 30
@@ -76,8 +77,17 @@ layout_mode = 2
 theme_override_constants/margin_top = 25
 
 [node name="StartGame" type="Button" parent="ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2"]
+visible = false
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 20
 text = "Start Game"
+
+[node name="Status" type="Label" parent="ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2"]
+visible = false
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "Status text"
+horizontal_alignment = 1
+vertical_alignment = 1
