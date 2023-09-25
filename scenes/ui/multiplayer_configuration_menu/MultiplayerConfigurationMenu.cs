@@ -5,6 +5,8 @@ using System.Net.Sockets;
 using Godot;
 using TicTacToeMultiplayer.scripts.event_bus_system;
 using TicTacToeMultiplayer.scripts.events;
+using TicTacToeMultiplayer.scripts.events.game_state;
+using TicTacToeMultiplayer.scripts.events.lobby;
 
 namespace TicTacToeMultiplayer.scenes.ui.multiplayer_configuration_menu;
 

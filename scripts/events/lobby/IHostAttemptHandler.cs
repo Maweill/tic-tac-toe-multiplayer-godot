@@ -1,6 +1,6 @@
 ﻿using Tetramino.scripts.event_bus_system;
 
-namespace TicTacToeMultiplayer.scripts.events;
+namespace TicTacToeMultiplayer.scripts.events.lobby;
 
 public interface IHostAttemptHandler : IGlobalSubscriber
 {

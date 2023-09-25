@@ -4,4 +4,7 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>TicTacToeMultiplayer</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="scenes\game_object\grid\" />
+  </ItemGroup>
 </Project>

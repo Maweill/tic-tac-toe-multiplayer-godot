@@ -3,7 +3,7 @@ using System.Linq;
 using Godot;
 using Godot.Collections;
 using TicTacToeMultiplayer.scripts.event_bus_system;
-using TicTacToeMultiplayer.scripts.events;
+using TicTacToeMultiplayer.scripts.events.lobby;
 using TicTacToeMultiplayer.scripts.multiplayer;
 using static Godot.ENetConnection;
 

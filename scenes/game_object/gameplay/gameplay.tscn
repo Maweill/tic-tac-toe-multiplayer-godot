@@ -1,3 +1,11 @@
-[gd_scene format=3 uid="uid://2p6nujn8n7ro"]
+[gd_scene load_steps=3 format=3 uid="uid://2p6nujn8n7ro"]
 
-[node name="Gameplay" type="Node2D"]
+[ext_resource type="Script" path="res://scenes/game_object/gameplay/Gameplay.cs" id="1_yxv4m"]
+[ext_resource type="PackedScene" uid="uid://dxhl1mbffu6lq" path="res://scenes/game_object/grid/grid.tscn" id="2_tuw14"]
+
+[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("_grid")]
+script = ExtResource("1_yxv4m")
+_grid = NodePath("Grid")
+
+[node name="Grid" parent="." instance=ExtResource("2_tuw14")]
+position = Vector2(1000, 535)

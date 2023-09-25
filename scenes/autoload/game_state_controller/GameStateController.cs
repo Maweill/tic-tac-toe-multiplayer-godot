@@ -1,6 +1,6 @@
 using Godot;
 using TicTacToeMultiplayer.scripts.event_bus_system;
-using TicTacToeMultiplayer.scripts.events;
+using TicTacToeMultiplayer.scripts.events.game_state;
 using static Godot.MultiplayerPeer;
 
 namespace TicTacToeMultiplayer.scenes.autoload.game_state_controller;

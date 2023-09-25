@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Godot;
 
-namespace Tetramino.scripts.Extensions;
+namespace TicTacToeMultiplayer.scripts.extensions;
 
 public static class ListExtensions
 {
