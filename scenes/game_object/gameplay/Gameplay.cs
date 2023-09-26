@@ -17,14 +17,23 @@ public partial class Gameplay : Node2D, ICellSelectedHandler
 {
 	[Export]
 	private Grid _grid = null!;
+	[Export]
+	private GameOverChecker _gameOverChecker = null!;
 	
 	private PlayerInfo _activePlayer = null!;
 	
 	public void HandleCellSelected(Cell cell)
 	{
-		cell.Select(_activePlayer.Side);
+		cell.Select(_activePlayer.Side, _activePlayer.Id);
 		_activePlayer = MultiplayerController.Players.First(player => player.Id != _activePlayer.Id);
 		_grid.SetActivePlayer(_activePlayer.Id);
+
+		if (!_gameOverChecker.IsGameOver(_grid, out int? winnerId)) {
+			return;
+		}
+		_grid.SetInput(false);
+		//TODO Show game over screen
+		GD.Print($"Game over. Winner is {winnerId}");
 	}
 	
 	public override void _Ready()

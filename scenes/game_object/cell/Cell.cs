@@ -14,9 +14,14 @@ public partial class Cell : Node2D
 	[Export]
 	private Area2D _clickableArea = null!;
 	
-	public void Select(CellType cellType)
+	public CellType CellType { get; private set; } = CellType.Empty;
+	public int PlayerId { get; private set; }
+	
+	public void Select(CellType cellType, int playerId)
 	{
 		_sprite.SetTexture(cellType);
+		CellType = cellType;
+		PlayerId = playerId;
 	}
 
 	public void SetInput(bool active)

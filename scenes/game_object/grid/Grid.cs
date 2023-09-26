@@ -7,20 +7,21 @@ namespace TicTacToeMultiplayer.scenes.game_object.grid;
 
 public partial class Grid : Node2D
 {
-	private List<Cell> _cells = null!;
+	public List<Cell> Cells { get; private set; } = null!;
 
 	public void SetActivePlayer(int playerId)
 	{
-		if (playerId != Multiplayer.GetUniqueId()) {
-			_cells.ForEach(cell => cell.SetInput(false));
-		} else {
-			_cells.ForEach(cell => cell.SetInput(true));
-		}
+		SetInput(playerId == Multiplayer.GetUniqueId());
 		SetMultiplayerAuthority(playerId);
+	}
+	
+	public void SetInput(bool active)
+	{
+		Cells.ForEach(cell => cell.SetInput(active));
 	}
 
 	public override void _Ready()
 	{
-		_cells = GetChildren().OfType<Cell>().ToList();
+		Cells = GetChildren().OfType<Cell>().ToList();
 	}
 }

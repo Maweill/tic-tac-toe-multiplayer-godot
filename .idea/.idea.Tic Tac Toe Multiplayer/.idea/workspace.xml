@@ -6,20 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="156eb9db-dfbb-45ce-a6b8-4b387d9ce9fb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tic Tac Toe Multiplayer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tic Tac Toe Multiplayer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tic Tac Toe Multiplayer.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Tic Tac Toe Multiplayer.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project.godot" beforeDir="false" afterPath="$PROJECT_DIR$/project.godot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/autoload/game_state_controller/GameStateController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/autoload/game_state_controller/GameStateController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/autoload/multiplayer_controller/MultiplayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/autoload/multiplayer_controller/MultiplayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scenes/game_object/cell/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game_object/cell/Cell.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scenes/game_object/gameplay/Gameplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game_object/gameplay/Gameplay.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scenes/game_object/gameplay/gameplay.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game_object/gameplay/gameplay.tscn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/ui/multiplayer_configuration_menu/MultiplayerConfigurationMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/ui/multiplayer_configuration_menu/MultiplayerConfigurationMenu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/events/IGameStartHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/events/game_state/IGameStartHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/events/IHostAttemptHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/events/lobby/IHostAttemptHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/events/IJoinAttemptHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/events/lobby/IJoinAttemptHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/events/IServerCreatedHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/events/lobby/IServerCreatedHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/extensions/ListExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/extensions/ListExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/extensions/NodeExtensions.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/extensions/Vector2Extensions.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/multiplayer/PlayerInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/multiplayer/PlayerInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scenes/game_object/grid/Grid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game_object/grid/Grid.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +97,8 @@
       <workItem from="1695457577095" duration="119000" />
       <workItem from="1695457707435" duration="5359000" />
       <workItem from="1695543360700" duration="14432000" />
-      <workItem from="1695655709206" duration="7091000" />
+      <workItem from="1695655709206" duration="7464000" />
+      <workItem from="1695752793470" duration="3213000" />
     </task>
     <servers />
   </component>
