@@ -32,13 +32,15 @@ public partial class Gameplay : Node2D, ICellSelectedHandler
 			return;
 		}
 		_grid.SetInput(false);
-		//TODO Show game over screen
+		//TODO Show cross line animation
+		//TODO Show game over screen after animation is finished
 		GD.Print($"Game over. Winner is {winnerId}");
 	}
 	
 	public override void _Ready()
 	{
 		EventBus.Subscribe(this);
+		RenderingServer.SetDefaultClearColor(new Color("#3B3B3B", 1f));
 
 		// Called from client to ensure that all players are ready because server is always ready
 		if (Multiplayer.IsServer()) {

@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="156eb9db-dfbb-45ce-a6b8-4b387d9ce9fb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tic Tac Toe Multiplayer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tic Tac Toe Multiplayer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/game_object/cell/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game_object/cell/Cell.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scenes/game_object/gameplay/Gameplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game_object/gameplay/Gameplay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/game_object/gameplay/gameplay.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game_object/gameplay/gameplay.tscn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/game_object/grid/Grid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game_object/grid/Grid.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +95,7 @@
       <workItem from="1695457707435" duration="5359000" />
       <workItem from="1695543360700" duration="14432000" />
       <workItem from="1695655709206" duration="7464000" />
-      <workItem from="1695752793470" duration="3213000" />
+      <workItem from="1695752793470" duration="4050000" />
     </task>
     <servers />
   </component>
