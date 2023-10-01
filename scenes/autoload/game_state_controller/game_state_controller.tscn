@@ -1,8 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://copuo7hn24l44"]
+[gd_scene load_steps=5 format=3 uid="uid://copuo7hn24l44"]
 
 [ext_resource type="Script" path="res://scenes/autoload/game_state_controller/GameStateController.cs" id="1_vhc7h"]
 [ext_resource type="PackedScene" uid="uid://2p6nujn8n7ro" path="res://scenes/game_object/gameplay/gameplay.tscn" id="2_n5m8c"]
+[ext_resource type="PackedScene" uid="uid://wd00o3ems5xe" path="res://scenes/ui/multiplayer_configuration_menu/multiplayer_configuration_menu.tscn" id="2_vm1yx"]
+[ext_resource type="PackedScene" uid="uid://lac5ddhvv0ps" path="res://scenes/ui/game_over_menu/game_over_menu.tscn" id="4_j6kyr"]
 
 [node name="GameStateController" type="Node"]
 script = ExtResource("1_vhc7h")
+_lobbyScene = ExtResource("2_vm1yx")
 _gameplayScene = ExtResource("2_n5m8c")
+_gameOverMenuScene = ExtResource("4_j6kyr")

@@ -6,6 +6,7 @@ using TicTacToeMultiplayer.scenes.game_object.grid;
 using TicTacToeMultiplayer.scripts.cell;
 using TicTacToeMultiplayer.scripts.event_bus_system;
 using TicTacToeMultiplayer.scripts.events.cell;
+using TicTacToeMultiplayer.scripts.events.game_state;
 using TicTacToeMultiplayer.scripts.extensions;
 using TicTacToeMultiplayer.scripts.multiplayer;
 using static Godot.MultiplayerApi;
@@ -24,17 +25,18 @@ public partial class Gameplay : Node2D, ICellSelectedHandler
 	
 	public void HandleCellSelected(Cell cell)
 	{
-		cell.Select(_activePlayer.Side, _activePlayer.Id);
+		cell.Select(_activePlayer);
 		_activePlayer = MultiplayerController.Players.First(player => player.Id != _activePlayer.Id);
 		_grid.SetActivePlayer(_activePlayer.Id);
 
-		if (!_gameOverChecker.IsGameOver(_grid, out int? winnerId)) {
+		if (!_gameOverChecker.IsGameOver(_grid, out bool isDraw, out PlayerInfo? winner)) {
 			return;
 		}
 		_grid.SetInput(false);
 		//TODO Show cross line animation
 		//TODO Show game over screen after animation is finished
-		GD.Print($"Game over. Winner is {winnerId}");
+		GD.Print($"Game over. Winner is {winner!.Id}");
+		EventBus.RaiseEvent<IGameOverHandler>(h => h?.HandleGameOver(isDraw, winner));
 	}
 	
 	public override void _Ready()

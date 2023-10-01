@@ -2,7 +2,7 @@
 
 namespace TicTacToeMultiplayer.scripts.events.game_state;
 
-public interface IGameStartHandler : IGlobalSubscriber
+public interface IGameStartAttemptHandler : IGlobalSubscriber
 {
-	void HandleGameStart();
+	void HandleGameStartAttempt();
 }

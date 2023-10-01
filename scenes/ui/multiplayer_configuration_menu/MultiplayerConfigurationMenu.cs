@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Sockets;
 using Godot;
 using TicTacToeMultiplayer.scripts.event_bus_system;
-using TicTacToeMultiplayer.scripts.events;
 using TicTacToeMultiplayer.scripts.events.game_state;
 using TicTacToeMultiplayer.scripts.events.lobby;
 
@@ -47,7 +46,7 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 
 	private void OnStartGameButtonPressed()
 	{
-		EventBus.RaiseEvent<IGameStartHandler>(h => h?.HandleGameStart());
+		EventBus.RaiseEvent<IGameStartAttemptHandler>(h => h?.HandleGameStartAttempt());
 	}
 
 	private void OnConnectButtonPressed()

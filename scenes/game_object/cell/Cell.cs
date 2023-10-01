@@ -2,6 +2,7 @@ using Godot;
 using TicTacToeMultiplayer.scripts.cell;
 using TicTacToeMultiplayer.scripts.event_bus_system;
 using TicTacToeMultiplayer.scripts.events.cell;
+using TicTacToeMultiplayer.scripts.multiplayer;
 using static Godot.MultiplayerApi;
 using static Godot.MultiplayerPeer;
 
@@ -15,13 +16,13 @@ public partial class Cell : Node2D
 	private Area2D _clickableArea = null!;
 	
 	public CellType CellType { get; private set; } = CellType.Empty;
-	public int PlayerId { get; private set; }
+	public PlayerInfo? Player { get; private set; }
 	
-	public void Select(CellType cellType, int playerId)
+	public void Select(PlayerInfo player)
 	{
-		_sprite.SetTexture(cellType);
-		CellType = cellType;
-		PlayerId = playerId;
+		_sprite.SetTexture(player.Side);
+		CellType = player.Side;
+		Player = player;
 	}
 
 	public void SetInput(bool active)
