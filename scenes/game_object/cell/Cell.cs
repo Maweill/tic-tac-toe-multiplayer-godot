@@ -40,6 +40,7 @@ public partial class Cell : Node2D
 		if (!@event.IsActionPressed("select_cell")) {
 			return;
 		}
+		SetInput(false);
 		Rpc(nameof(OnCellClicked));
 	}
 	

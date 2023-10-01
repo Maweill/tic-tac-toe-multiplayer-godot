@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using TicTacToeMultiplayer.scenes.game_object.cell;
+using TicTacToeMultiplayer.scripts.cell;
 
 namespace TicTacToeMultiplayer.scenes.game_object.grid;
 
@@ -17,7 +18,7 @@ public partial class Grid : Node2D
 	
 	public void SetInput(bool active)
 	{
-		Cells.ForEach(cell => cell.SetInput(active));
+		Cells.Where(cell => cell.CellType == CellType.Empty).ToList().ForEach(cell => cell.SetInput(active));
 	}
 
 	public override void _Ready()

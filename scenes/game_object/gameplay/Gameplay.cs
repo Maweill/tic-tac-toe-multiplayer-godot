@@ -35,7 +35,7 @@ public partial class Gameplay : Node2D, ICellSelectedHandler
 		_grid.SetInput(false);
 		//TODO Show cross line animation
 		//TODO Show game over screen after animation is finished
-		GD.Print($"Game over. Winner is {winner!.Id}");
+		GD.Print($"Game over.");
 		EventBus.RaiseEvent<IGameOverHandler>(h => h?.HandleGameOver(isDraw, winner));
 	}
 	
