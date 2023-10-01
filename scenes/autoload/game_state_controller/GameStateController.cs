@@ -26,7 +26,7 @@ public partial class GameStateController : Node, IGameStartAttemptHandler, IOpen
 		Rpc(nameof(StartGameplay));
 	}
 
-	public void HandleGameOver(bool isDraw, PlayerInfo? winner = null)
+	public void HandleGameOver(bool isDraw, PlayerModel? winner = null)
 	{
 		GameOverMenu gameOverMenu = _gameOverMenuScene.Instantiate<GameOverMenu>();
 		GetTree().CurrentScene.AddChild(gameOverMenu);

@@ -12,7 +12,7 @@ public partial class GameOverMenu : CanvasLayer
 	[Export]
 	private Button _openLobbyButton = null!;
 
-	public void Initialize(bool isDraw, PlayerInfo? winner)
+	public void Initialize(bool isDraw, PlayerModel? winner)
 	{
 		_resultHeaderLabel.Text = isDraw ? "Draw!" : (Multiplayer.GetUniqueId() == winner!.Id ? "You won!" : "You lost :(");
 	}

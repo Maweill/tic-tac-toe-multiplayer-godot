@@ -3,6 +3,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using Godot;
+using TicTacToeMultiplayer.scenes.autoload.autoload_helper;
+using TicTacToeMultiplayer.scenes.autoload.multiplayer_controller;
 using TicTacToeMultiplayer.scripts.event_bus_system;
 using TicTacToeMultiplayer.scripts.events.game_state;
 using TicTacToeMultiplayer.scripts.events.lobby;
@@ -33,6 +35,8 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 
 	public override void _Ready()
 	{
+		RefreshStateFromController();
+		
 		_hostAddressLineEdit.TextChanged += OnHostAddressChanged;
 		_connectButton.Pressed += OnConnectButtonPressed;
 		_startGameButton.Pressed += OnStartGameButtonPressed;
@@ -85,7 +89,7 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 	{
 		Multiplayer.ConnectedToServer -= OnConnectedToServer;
 		
-		ShowStatus("Connected!\nWait for the host to start the game", new Color(0, 1, 0));
+		ShowJoinStatus("Connected!\nWait for the host to start the game", new Color(0, 1, 0));
 	}
 
 	private void OnConnectionFailed()
@@ -94,15 +98,39 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 		
 		_hostAddressLineEdit.Editable = true;
 		_connectButton.Disabled = false;
-		ShowStatus("Connection failed", new Color(1, 0, 0));
+		ShowJoinStatus("Connection failed", new Color(1, 0, 0));
 	}
 
 	private void OnHostAddressChanged(string newtext)
 	{
 		_connectButton.Text = newtext.Length > 0 ? "Join" : "Host";
 	}
+
+	private void RefreshStateFromController()
+	{
+		if (MultiplayerController.Players.Count == 0) {
+			return;
+		}
+		
+		MultiplayerController multiplayerController = AutoloadHelper.GetAutoload<MultiplayerController>();
+		if (Multiplayer.IsServer()) {
+			_hostAddressLineEdit.Text = $"{multiplayerController.HostIp}:{multiplayerController.HostPort}";
+			_hostAddressLineEdit.Editable = false;
+			
+			_connectButton.Disabled = true;
+			_startGameButton.Visible = true;
+			_startGameButton.Disabled = MultiplayerController.Players.Count < 2;
+			return;
+		}
+		
+		_hostAddressLineEdit.Text = $"{multiplayerController.HostIp}:{multiplayerController.HostPort}";
+		_hostAddressLineEdit.Editable = false;
+		_connectButton.Disabled = true;
+		_startGameButton.Visible = false;
+		ShowJoinStatus("Connected!\nWait for the host to start the game", new Color(0, 1, 0));
+	}
 	
-	private void ShowStatus(string text, Color color)
+	private void ShowJoinStatus(string text, Color color)
 	{
 		_statusLabel.Text = text;
 		_statusLabel.AddThemeColorOverride("font_color", color);

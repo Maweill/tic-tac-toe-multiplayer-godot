@@ -5,5 +5,5 @@ namespace TicTacToeMultiplayer.scripts.events.game_state;
 
 public interface IGameOverHandler : IGlobalSubscriber
 {
-	void HandleGameOver(bool isDraw, PlayerInfo? winner = null);
+	void HandleGameOver(bool isDraw, PlayerModel? winner = null);
 }

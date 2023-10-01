@@ -21,7 +21,7 @@ public partial class Gameplay : Node2D, ICellSelectedHandler
 	[Export]
 	private GameOverChecker _gameOverChecker = null!;
 	
-	private PlayerInfo _activePlayer = null!;
+	private PlayerModel _activePlayer = null!;
 	
 	public void HandleCellSelected(Cell cell)
 	{
@@ -29,7 +29,7 @@ public partial class Gameplay : Node2D, ICellSelectedHandler
 		_activePlayer = MultiplayerController.Players.First(player => player.Id != _activePlayer.Id);
 		_grid.SetActivePlayer(_activePlayer.Id);
 
-		if (!_gameOverChecker.IsGameOver(_grid, out bool isDraw, out PlayerInfo? winner)) {
+		if (!_gameOverChecker.IsGameOver(_grid, out bool isDraw, out PlayerModel? winner)) {
 			return;
 		}
 		_grid.SetInput(false);
@@ -44,11 +44,13 @@ public partial class Gameplay : Node2D, ICellSelectedHandler
 		EventBus.Subscribe(this);
 		RenderingServer.SetDefaultClearColor(new Color("#3B3B3B", 1f));
 
+		MultiplayerController.Players.ForEach(player => player.Side = CellType.Circle);
+		
 		// Called from client to ensure that all players are ready because server is always ready
 		if (Multiplayer.IsServer()) {
 			return;
 		}
-		PlayerInfo player = MultiplayerController.Players.PickRandom();
+		PlayerModel player = MultiplayerController.Players.PickRandom();
 		Rpc(nameof(SetCrossPlayer), player.Id);
 	}
 	
@@ -60,7 +62,7 @@ public partial class Gameplay : Node2D, ICellSelectedHandler
 	[Rpc(RpcMode.AnyPeer, CallLocal = true, TransferMode = TransferModeEnum.Reliable)]
 	private void SetCrossPlayer(int playerId)
 	{
-		PlayerInfo player = MultiplayerController.Players.First(player => player.Id == playerId);
+		PlayerModel player = MultiplayerController.Players.First(player => player.Id == playerId);
 		player.Side = CellType.Cross;
 		_activePlayer = player;
 		_grid.SetActivePlayer(_activePlayer.Id);

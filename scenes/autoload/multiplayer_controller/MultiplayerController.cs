@@ -11,16 +11,22 @@ namespace TicTacToeMultiplayer.scenes.autoload.multiplayer_controller;
 
 public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAttemptHandler
 {
-	public static readonly List<PlayerInfo> Players = new();
+	public static readonly List<PlayerModel> Players = new();
 	
 	private const CompressionMode COMPRESSION_MODE = CompressionMode.RangeCoder;
 	
 	private ENetMultiplayerPeer? _peer;
+	
+	public string? HostIp { get; private set; }
+	public int HostPort { get; private set; }
 
 	public void HandleHostAttempt(string ip, int port)
 	{
 		HostGame(ip, port);
 		AddPlayer(1);
+		
+		HostIp = ip;
+		HostPort = port;
 	}
 
 	public void HandleJoinAttempt(string ip, int port)
@@ -30,6 +36,9 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 
 		_peer.Host.Compress(COMPRESSION_MODE);
 		Multiplayer.MultiplayerPeer = _peer;
+		
+		HostIp = ip;
+		HostPort = port;
 	}
 
 	public override void _Ready()
@@ -94,19 +103,19 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
 	private void AddPlayer(int id)
 	{
-		PlayerInfo playerInfo = new() {
+		PlayerModel playerModel = new() {
 				Id = id
 		};
 		
-		if (!Players.Contains(playerInfo)) {
-			Players.Add(playerInfo);
-			GD.Print("Player added, id = " + playerInfo.Id);
+		if (!Players.Contains(playerModel)) {
+			Players.Add(playerModel);
+			GD.Print("Player added, id = " + playerModel.Id);
 		}
 
 		if (!Multiplayer.IsServer()) {
 			return;
 		}
-		foreach (PlayerInfo item in Players) {
+		foreach (PlayerModel item in Players) {
 			Rpc(nameof(AddPlayer), item.Id);
 		}
 	}

@@ -2,8 +2,8 @@
 
 namespace TicTacToeMultiplayer.scripts.multiplayer;
 
-public class PlayerInfo
+public class PlayerModel
 {
 	public int Id;
-	public CellType Side = CellType.Circle;
+	public CellType Side;
 }

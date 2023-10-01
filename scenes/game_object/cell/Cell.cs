@@ -16,9 +16,9 @@ public partial class Cell : Node2D
 	private Area2D _clickableArea = null!;
 	
 	public CellType CellType { get; private set; } = CellType.Empty;
-	public PlayerInfo? Player { get; private set; }
+	public PlayerModel? Player { get; private set; }
 	
-	public void Select(PlayerInfo player)
+	public void Select(PlayerModel player)
 	{
 		_sprite.SetTexture(player.Side);
 		CellType = player.Side;

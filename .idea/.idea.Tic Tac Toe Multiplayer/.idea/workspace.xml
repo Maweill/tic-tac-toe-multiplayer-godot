@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="156eb9db-dfbb-45ce-a6b8-4b387d9ce9fb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/scenes/ui/game_over_menu/GameOverMenu.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scenes/ui/game_over_menu/game_over_menu.tscn" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/events/game_state/IGameOverHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/events/game_state/IOpenLobbyAttemptHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tic Tac Toe Multiplayer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tic Tac Toe Multiplayer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/autoload/game_state_controller/GameStateController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/autoload/game_state_controller/GameStateController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/autoload/game_state_controller/game_state_controller.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/autoload/game_state_controller/game_state_controller.tscn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/game_object/cell/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game_object/cell/Cell.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/game_object/gameplay/GameOverChecker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game_object/gameplay/GameOverChecker.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/game_object/gameplay/Gameplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game_object/gameplay/Gameplay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/ui/multiplayer_configuration_menu/MultiplayerConfigurationMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/ui/multiplayer_configuration_menu/MultiplayerConfigurationMenu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/events/game_state/IGameStartHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/events/game_state/IGameStartAttemptHandler.cs" afterDir="false" />
-    </list>
+    <list default="true" id="156eb9db-dfbb-45ce-a6b8-4b387d9ce9fb" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -107,7 +94,7 @@
       <workItem from="1695543360700" duration="14432000" />
       <workItem from="1695655709206" duration="7464000" />
       <workItem from="1695752793470" duration="4263000" />
-      <workItem from="1696152593027" duration="5354000" />
+      <workItem from="1696152593027" duration="5577000" />
     </task>
     <servers />
   </component>

@@ -8,7 +8,7 @@ namespace TicTacToeMultiplayer.scenes.game_object.gameplay;
 
 public partial class GameOverChecker : Node
 {
-	public bool IsGameOver(Grid grid, out bool isDraw, out PlayerInfo? winner)
+	public bool IsGameOver(Grid grid, out bool isDraw, out PlayerModel? winner)
 	{
 		winner = null;
 		isDraw = false;
@@ -25,7 +25,7 @@ public partial class GameOverChecker : Node
 		return isDraw;
 	}
 
-	private bool IsHorizontalLine(Grid grid, out PlayerInfo? winner)
+	private bool IsHorizontalLine(Grid grid, out PlayerModel? winner)
 	{
 		winner = null;
 		for (int i = 0; i < 3; i++) {
@@ -39,7 +39,7 @@ public partial class GameOverChecker : Node
 		return false;
 	}
 	
-	private bool IsVerticalLine(Grid grid, out PlayerInfo? winner)
+	private bool IsVerticalLine(Grid grid, out PlayerModel? winner)
 	{
 		winner = null;
 		for (int i = 0; i < 3; i++) {
@@ -53,7 +53,7 @@ public partial class GameOverChecker : Node
 		return false;
 	}
 	
-	private bool IsDiagonalLine(Grid grid, out PlayerInfo? winner)
+	private bool IsDiagonalLine(Grid grid, out PlayerModel? winner)
 	{
 		winner = null;
 		if (grid.Cells[0].CellType == grid.Cells[4].CellType &&
