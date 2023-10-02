@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="156eb9db-dfbb-45ce-a6b8-4b387d9ce9fb" name="Changes" comment="" />
+    <list default="true" id="156eb9db-dfbb-45ce-a6b8-4b387d9ce9fb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tic Tac Toe Multiplayer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tic Tac Toe Multiplayer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scenes/autoload/game_state_controller/GameStateController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/autoload/game_state_controller/GameStateController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scenes/autoload/multiplayer_controller/MultiplayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/autoload/multiplayer_controller/MultiplayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scenes/ui/multiplayer_configuration_menu/MultiplayerConfigurationMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/ui/multiplayer_configuration_menu/MultiplayerConfigurationMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/multiplayer/PlayerModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/multiplayer/PlayerModel.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -94,7 +100,8 @@
       <workItem from="1695543360700" duration="14432000" />
       <workItem from="1695655709206" duration="7464000" />
       <workItem from="1695752793470" duration="4263000" />
-      <workItem from="1696152593027" duration="5577000" />
+      <workItem from="1696152593027" duration="13759000" />
+      <workItem from="1696262596533" duration="343000" />
     </task>
     <servers />
   </component>

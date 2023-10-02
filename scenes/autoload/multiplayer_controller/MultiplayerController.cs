@@ -6,6 +6,8 @@ using TicTacToeMultiplayer.scripts.event_bus_system;
 using TicTacToeMultiplayer.scripts.events.lobby;
 using TicTacToeMultiplayer.scripts.multiplayer;
 using static Godot.ENetConnection;
+using static Godot.MultiplayerApi;
+using static Godot.MultiplayerPeer;
 
 namespace TicTacToeMultiplayer.scenes.autoload.multiplayer_controller;
 
@@ -19,6 +21,14 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 	
 	public string? HostIp { get; private set; }
 	public int HostPort { get; private set; }
+
+	[Rpc(RpcMode.AnyPeer, CallLocal = true, TransferMode = TransferModeEnum.Reliable)]
+	public void ChangePlayerStatus(int id, PlayerStatus status)
+	{
+		PlayerModel player = Players.First(player => player.Id == id);
+		GD.Print($"Player status changed, old={player.Status}, new={status}");
+		player.Status = status;
+	}
 
 	public void HandleHostAttempt(string ip, int port)
 	{
@@ -50,7 +60,7 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 		
 		EventBus.Subscribe(this);
 	}
-	
+
 	public override void _ExitTree()
 	{
 		EventBus.Unsubscribe(this);
@@ -100,11 +110,12 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 		EventBus.RaiseEvent<IServerCreatedHandler>(h => h?.HandleServerCreated(ip, port));
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+	[Rpc(RpcMode.AnyPeer)]
 	private void AddPlayer(int id)
 	{
 		PlayerModel playerModel = new() {
-				Id = id
+				Id = id,
+				Status = PlayerStatus.LOBBY
 		};
 		
 		if (!Players.Contains(playerModel)) {
@@ -117,6 +128,14 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 		}
 		foreach (PlayerModel item in Players) {
 			Rpc(nameof(AddPlayer), item.Id);
+		}
+	}
+
+	public PlayerModel Player
+	{
+		get
+		{
+			return Players.First(player => player.Id == Multiplayer.GetUniqueId());
 		}
 	}
 }

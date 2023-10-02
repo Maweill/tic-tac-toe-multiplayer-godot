@@ -1,4 +1,6 @@
 using Godot;
+using TicTacToeMultiplayer.scenes.autoload.autoload_helper;
+using TicTacToeMultiplayer.scenes.autoload.multiplayer_controller;
 using TicTacToeMultiplayer.scenes.ui.game_over_menu;
 using TicTacToeMultiplayer.scripts.event_bus_system;
 using TicTacToeMultiplayer.scripts.events.game_state;
@@ -15,10 +17,12 @@ public partial class GameStateController : Node, IGameStartAttemptHandler, IOpen
 	private PackedScene _gameplayScene = null!;
 	[Export]
 	private PackedScene _gameOverMenuScene = null!;
+	
+	private MultiplayerController _multiplayerController = null!;
 
 	public void HandleOpenLobbyAttempt()
 	{
-		Rpc(nameof(OpenLobby));
+		OpenLobby();
 	}
 
 	public void HandleGameStartAttempt()
@@ -35,6 +39,7 @@ public partial class GameStateController : Node, IGameStartAttemptHandler, IOpen
 
 	public override void _Ready()
 	{
+		_multiplayerController = AutoloadHelper.GetAutoload<MultiplayerController>();
 		EventBus.Subscribe(this);
 	}
 
@@ -43,15 +48,19 @@ public partial class GameStateController : Node, IGameStartAttemptHandler, IOpen
 		EventBus.Unsubscribe(this);
 	}
 
-	[Rpc(CallLocal = true, TransferMode = TransferModeEnum.Reliable)]
 	private void OpenLobby()
 	{
 		GetTree().ChangeSceneToPacked(_lobbyScene);
+		_multiplayerController.Rpc(MultiplayerController.MethodName.ChangePlayerStatus, 
+		                           _multiplayerController.Player.Id, (int) PlayerStatus.LOBBY);
 	}
 
 	[Rpc(CallLocal = true, TransferMode = TransferModeEnum.Reliable)]
 	private void StartGameplay()
 	{
 		GetTree().ChangeSceneToPacked(_gameplayScene);
+		_multiplayerController.Player.Status = PlayerStatus.GAME;
+		_multiplayerController.Rpc(MultiplayerController.MethodName.ChangePlayerStatus, 
+		                           _multiplayerController.Player.Id, (int) PlayerStatus.GAME);
 	}
 }

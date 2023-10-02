@@ -8,6 +8,7 @@ using TicTacToeMultiplayer.scenes.autoload.multiplayer_controller;
 using TicTacToeMultiplayer.scripts.event_bus_system;
 using TicTacToeMultiplayer.scripts.events.game_state;
 using TicTacToeMultiplayer.scripts.events.lobby;
+using TicTacToeMultiplayer.scripts.multiplayer;
 
 namespace TicTacToeMultiplayer.scenes.ui.multiplayer_configuration_menu;
 
@@ -41,6 +42,14 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 		_connectButton.Pressed += OnConnectButtonPressed;
 		_startGameButton.Pressed += OnStartGameButtonPressed;
 		EventBus.Subscribe(this);
+	}
+
+	public override void _Process(double delta)
+	{
+		if (!Multiplayer.IsServer()) {
+			return;
+		}
+		_startGameButton.Disabled = MultiplayerController.Players.Count < 2 || MultiplayerController.Players.Any(player => player.Status != PlayerStatus.LOBBY);
 	}
 
 	public override void _ExitTree()
@@ -119,7 +128,6 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 			
 			_connectButton.Disabled = true;
 			_startGameButton.Visible = true;
-			_startGameButton.Disabled = MultiplayerController.Players.Count < 2;
 			return;
 		}
 		
@@ -146,8 +154,8 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 		                                       .ToList();
 		return localAddresses.First();
 	}
-	
-	public static int GetAvailablePort()
+
+	private int GetAvailablePort()
 	{
 		using (Socket socket = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
 		{
