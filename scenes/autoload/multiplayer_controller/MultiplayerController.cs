@@ -130,12 +130,4 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 			Rpc(nameof(AddPlayer), item.Id);
 		}
 	}
-
-	public PlayerModel Player
-	{
-		get
-		{
-			return Players.First(player => player.Id == Multiplayer.GetUniqueId());
-		}
-	}
 }

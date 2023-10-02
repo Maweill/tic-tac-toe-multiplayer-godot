@@ -52,15 +52,14 @@ public partial class GameStateController : Node, IGameStartAttemptHandler, IOpen
 	{
 		GetTree().ChangeSceneToPacked(_lobbyScene);
 		_multiplayerController.Rpc(MultiplayerController.MethodName.ChangePlayerStatus, 
-		                           _multiplayerController.Player.Id, (int) PlayerStatus.LOBBY);
+		                           Multiplayer.GetUniqueId(), (int) PlayerStatus.LOBBY);
 	}
 
 	[Rpc(CallLocal = true, TransferMode = TransferModeEnum.Reliable)]
 	private void StartGameplay()
 	{
 		GetTree().ChangeSceneToPacked(_gameplayScene);
-		_multiplayerController.Player.Status = PlayerStatus.GAME;
 		_multiplayerController.Rpc(MultiplayerController.MethodName.ChangePlayerStatus, 
-		                           _multiplayerController.Player.Id, (int) PlayerStatus.GAME);
+		                           Multiplayer.GetUniqueId(), (int) PlayerStatus.GAME);
 	}
 }
