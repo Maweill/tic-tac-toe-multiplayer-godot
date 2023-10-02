@@ -80,14 +80,12 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 	private void OnPeerDisconnected(long id)
 	{
 		GD.Print("Player Disconnected: " + id);
-		Players.Remove(Players.First(i => i.Id == id));
-		Array<Node> players = GetTree().GetNodesInGroup("Player");
-
-		foreach (Node item in players) {
-			if (item.Name == id.ToString()) {
-				item.QueueFree();
-			}
+		if (id == 1) {
+			Reset();
+			EventBus.RaiseEvent<IServerClosedHandler>(h => h?.HandleServerClosed());
+			return;
 		}
+		Players.Remove(Players.First(i => i.Id == id));
 	}
 
 	private void OnPeerConnected(long id)
@@ -129,5 +127,14 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 		foreach (PlayerModel item in Players) {
 			Rpc(nameof(AddPlayer), item.Id);
 		}
+	}
+	
+	private void Reset()
+	{
+		_peer?.Close();
+		_peer = null;
+		HostIp = null;
+		HostPort = 0;
+		Players.Clear();
 	}
 }

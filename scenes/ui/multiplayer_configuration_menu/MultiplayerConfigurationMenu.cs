@@ -12,7 +12,7 @@ using TicTacToeMultiplayer.scripts.multiplayer;
 
 namespace TicTacToeMultiplayer.scenes.ui.multiplayer_configuration_menu;
 
-public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandler
+public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandler, IServerClosedHandler
 {
 	[Export]
 	private LineEdit _hostAddressLineEdit = null!;
@@ -22,6 +22,8 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 	private Button _startGameButton = null!;
 	[Export]
 	private Label _statusLabel = null!;
+	
+	private bool _isServerActive;
 
 	public void HandleServerCreated(string hostIp, int port)
 	{
@@ -32,6 +34,19 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 		_hostAddressLineEdit.Editable = false;
 		_startGameButton.Visible = true;
 		_startGameButton.Disabled = true;
+		
+		_isServerActive = true;
+	}
+
+	public void HandleServerClosed()
+	{
+		_hostAddressLineEdit.Clear();
+		_hostAddressLineEdit.Editable = true;
+		_connectButton.Disabled = false;
+		_startGameButton.Visible = false;
+		_statusLabel.Visible = false;
+		
+		_isServerActive = false;
 	}
 
 	public override void _Ready()
@@ -46,7 +61,7 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 
 	public override void _Process(double delta)
 	{
-		if (!Multiplayer.IsServer()) {
+		if (_isServerActive && !Multiplayer.IsServer()) {
 			return;
 		}
 		_startGameButton.Disabled = MultiplayerController.Players.Count < 2 || MultiplayerController.Players.Any(player => player.Status != PlayerStatus.LOBBY);
@@ -137,7 +152,7 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 		_startGameButton.Visible = false;
 		ShowJoinStatus("Connected!\nWait for the host to start the game", new Color(0, 1, 0));
 	}
-	
+
 	private void ShowJoinStatus(string text, Color color)
 	{
 		_statusLabel.Text = text;
