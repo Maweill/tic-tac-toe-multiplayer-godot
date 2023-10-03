@@ -1,15 +1,17 @@
 [gd_scene load_steps=4 format=3 uid="uid://dxhl1mbffu6lq"]
 
 [ext_resource type="Script" path="res://scenes/game_object/grid/Grid.cs" id="1_cqftq"]
-[ext_resource type="Texture2D" uid="uid://dy05tsr5gm7wu" path="res://assets/sprites/grid.png" id="2_amgeu"]
+[ext_resource type="Texture2D" uid="uid://1am1sf25e0mw" path="res://assets/sprites/grid_bordered.png" id="2_nt2pb"]
 [ext_resource type="PackedScene" uid="uid://ccpcile5xk0sk" path="res://scenes/game_object/cell/cell.tscn" id="2_qq22p"]
 
 [node name="Grid" type="Node2D"]
 script = ExtResource("1_cqftq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_amgeu")
+texture = ExtResource("2_nt2pb")
+offset = Vector2(1, -4)
 
 [node name="Cell" parent="." instance=ExtResource("2_qq22p")]
 position = Vector2(-299, -309)
