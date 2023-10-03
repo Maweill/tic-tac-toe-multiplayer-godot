@@ -39,6 +39,7 @@ public partial class GameStateController : Node, IGameStartAttemptHandler, IOpen
 
 	public override void _Ready()
 	{
+		RenderingServer.SetDefaultClearColor(new Color("#f1c9d0", 1f));
 		_multiplayerController = AutoloadHelper.GetAutoload<MultiplayerController>();
 		EventBus.Subscribe(this);
 	}

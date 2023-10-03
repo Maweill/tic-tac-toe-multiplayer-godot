@@ -42,7 +42,6 @@ public partial class Gameplay : Node2D, ICellSelectedHandler
 	public override void _Ready()
 	{
 		EventBus.Subscribe(this);
-		RenderingServer.SetDefaultClearColor(new Color("#3B3B3B", 1f));
 
 		MultiplayerController.Players.ForEach(player => player.Side = CellType.Circle);
 		
