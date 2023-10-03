@@ -14,3 +14,4 @@ script = ExtResource("2_4jbh8")
 
 [node name="Grid" parent="." instance=ExtResource("2_tuw14")]
 position = Vector2(1000, 535)
+scale = Vector2(0.6, 0.6)
