@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using Godot.Collections;
+using TicTacToeMultiplayer.scenes.autoload.models_container;
 using TicTacToeMultiplayer.scripts.event_bus_system;
 using TicTacToeMultiplayer.scripts.events.lobby;
+using TicTacToeMultiplayer.scripts.models;
 using TicTacToeMultiplayer.scripts.multiplayer;
 using static Godot.ENetConnection;
 using static Godot.MultiplayerApi;
@@ -13,19 +14,14 @@ namespace TicTacToeMultiplayer.scenes.autoload.multiplayer_controller;
 
 public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAttemptHandler
 {
-	public static readonly List<PlayerModel> Players = new();
-	
 	private const CompressionMode COMPRESSION_MODE = CompressionMode.RangeCoder;
-	
-	private ENetMultiplayerPeer? _peer;
-	
-	public string? HostIp { get; private set; }
-	public int HostPort { get; private set; }
 
+	private MultiplayerModel _multiplayerModel = null!;
+	
 	[Rpc(RpcMode.AnyPeer, CallLocal = true, TransferMode = TransferModeEnum.Reliable)]
 	public void ChangePlayerStatus(int id, PlayerStatus status)
 	{
-		PlayerModel player = Players.First(player => player.Id == id);
+		PlayerModel player = _multiplayerModel.Players.First(player => player.Id == id);
 		GD.Print($"Player status changed, old={player.Status}, new={status}");
 		player.Status = status;
 	}
@@ -35,24 +31,26 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 		HostGame(ip, port);
 		AddPlayer(1);
 		
-		HostIp = ip;
-		HostPort = port;
+		_multiplayerModel.HostIp = ip;
+		_multiplayerModel.HostPort = port;
 	}
 
 	public void HandleJoinAttempt(string ip, int port)
 	{
-		_peer = new ENetMultiplayerPeer();
-		_peer.CreateClient(ip, port);
-
-		_peer.Host.Compress(COMPRESSION_MODE);
-		Multiplayer.MultiplayerPeer = _peer;
+		ENetMultiplayerPeer peer = new();
+		peer.CreateClient(ip, port);
+		peer.Host.Compress(COMPRESSION_MODE);
+		Multiplayer.MultiplayerPeer = peer;
+		_multiplayerModel.Peer = peer;
 		
-		HostIp = ip;
-		HostPort = port;
+		_multiplayerModel.HostIp = ip;
+		_multiplayerModel.HostPort = port;
 	}
 
 	public override void _Ready()
 	{
+		_multiplayerModel = ModelsContainer.MultiplayerModel;
+		
 		Multiplayer.PeerConnected += OnPeerConnected;
 		Multiplayer.PeerDisconnected += OnPeerDisconnected;
 		Multiplayer.ConnectedToServer += OnConnectedToServer;
@@ -81,11 +79,12 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 	{
 		GD.Print("Player Disconnected: " + id);
 		if (id == 1) {
-			Reset();
+			_multiplayerModel.Reset();
 			EventBus.RaiseEvent<IServerClosedHandler>(h => h?.HandleServerClosed());
 			return;
 		}
-		Players.Remove(Players.First(i => i.Id == id));
+		List<PlayerModel> players = _multiplayerModel.Players;
+		players.Remove(players.First(i => i.Id == id));
 	}
 
 	private void OnPeerConnected(long id)
@@ -95,15 +94,16 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 
 	private void HostGame(string ip, int port)
 	{
-		_peer = new ENetMultiplayerPeer();
-		Error error = _peer.CreateServer(port, 2);
+		ENetMultiplayerPeer peer = new();
+		Error error = peer.CreateServer(port, 2);
 		if (error != Error.Ok) {
 			GD.Print("error cannot host! :" + error);
 			return;
 		}
-		_peer.Host.Compress(COMPRESSION_MODE);
-
-		Multiplayer.MultiplayerPeer = _peer;
+		peer.Host.Compress(COMPRESSION_MODE);
+		Multiplayer.MultiplayerPeer = peer;
+		_multiplayerModel.Peer = peer;
+		
 		GD.Print("Waiting For Players!");
 		EventBus.RaiseEvent<IServerCreatedHandler>(h => h?.HandleServerCreated(ip, port));
 	}
@@ -115,26 +115,18 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 				Id = id,
 				Status = PlayerStatus.LOBBY
 		};
-		
-		if (!Players.Contains(playerModel)) {
-			Players.Add(playerModel);
+
+		List<PlayerModel> players = _multiplayerModel.Players;
+		if (!players.Contains(playerModel)) {
+			players.Add(playerModel);
 			GD.Print("Player added, id = " + playerModel.Id);
 		}
 
 		if (!Multiplayer.IsServer()) {
 			return;
 		}
-		foreach (PlayerModel item in Players) {
+		foreach (PlayerModel item in players) {
 			Rpc(nameof(AddPlayer), item.Id);
 		}
-	}
-	
-	private void Reset()
-	{
-		_peer?.Close();
-		_peer = null;
-		HostIp = null;
-		HostPort = 0;
-		Players.Clear();
 	}
 }

@@ -3,11 +3,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using Godot;
-using TicTacToeMultiplayer.scenes.autoload.autoload_helper;
-using TicTacToeMultiplayer.scenes.autoload.multiplayer_controller;
+using TicTacToeMultiplayer.scenes.autoload.models_container;
 using TicTacToeMultiplayer.scripts.event_bus_system;
 using TicTacToeMultiplayer.scripts.events.game_state;
 using TicTacToeMultiplayer.scripts.events.lobby;
+using TicTacToeMultiplayer.scripts.models;
 using TicTacToeMultiplayer.scripts.multiplayer;
 
 namespace TicTacToeMultiplayer.scenes.ui.multiplayer_configuration_menu;
@@ -23,6 +23,7 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 	[Export]
 	private Label _statusLabel = null!;
 	
+	private MultiplayerModel _multiplayerModel = null!;
 	private bool _isServerActive;
 
 	public void HandleServerCreated(string hostIp, int port)
@@ -51,6 +52,7 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 
 	public override void _Ready()
 	{
+		_multiplayerModel = ModelsContainer.MultiplayerModel;
 		RefreshStateFromController();
 		
 		_hostAddressLineEdit.TextChanged += OnHostAddressChanged;
@@ -64,7 +66,8 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 		if (_isServerActive && !Multiplayer.IsServer()) {
 			return;
 		}
-		_startGameButton.Disabled = MultiplayerController.Players.Count < 2 || MultiplayerController.Players.Any(player => player.Status != PlayerStatus.LOBBY);
+		List<PlayerModel> players = _multiplayerModel.Players;
+		_startGameButton.Disabled = players.Count < 2 || players.Any(player => player.Status != PlayerStatus.LOBBY);
 	}
 
 	public override void _ExitTree()
@@ -132,13 +135,12 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 
 	private void RefreshStateFromController()
 	{
-		if (MultiplayerController.Players.Count == 0) {
+		if (_multiplayerModel.Players.Count == 0) {
 			return;
 		}
 		
-		MultiplayerController multiplayerController = AutoloadHelper.GetAutoload<MultiplayerController>();
 		if (Multiplayer.IsServer()) {
-			_hostAddressLineEdit.Text = $"{multiplayerController.HostIp}:{multiplayerController.HostPort}";
+			_hostAddressLineEdit.Text = $"{_multiplayerModel.HostIp}:{_multiplayerModel.HostPort}";
 			_hostAddressLineEdit.Editable = false;
 			
 			_connectButton.Disabled = true;
@@ -146,7 +148,7 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 			return;
 		}
 		
-		_hostAddressLineEdit.Text = $"{multiplayerController.HostIp}:{multiplayerController.HostPort}";
+		_hostAddressLineEdit.Text = $"{_multiplayerModel.HostIp}:{_multiplayerModel.HostPort}";
 		_hostAddressLineEdit.Editable = false;
 		_connectButton.Disabled = true;
 		_startGameButton.Visible = false;

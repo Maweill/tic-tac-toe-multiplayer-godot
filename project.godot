@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 AutoloadHelper="*res://scenes/autoload/autoload_helper/autoload_helper.tscn"
+ModelsContainer="*res://scenes/autoload/models_container/models_container.tscn"
 GameStateController="*res://scenes/autoload/game_state_controller/game_state_controller.tscn"
 MultiplayerController="*res://scenes/autoload/multiplayer_controller/multiplayer_controller.tscn"
 
