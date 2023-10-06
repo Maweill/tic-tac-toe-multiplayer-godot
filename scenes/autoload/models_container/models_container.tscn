@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bd2xaivysmn7y"]
-
-[ext_resource type="Script" path="res://scenes/autoload/models_container/ModelsContainer.cs" id="1_xqeht"]
-
-[node name="ModelsContainer" type="Node"]
-script = ExtResource("1_xqeht")

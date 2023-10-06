@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://k0xutfq6s71g"]
-
-[ext_resource type="Script" path="res://scenes/autoload/autoload_helper/AutoloadHelper.cs" id="1_bi6s6"]
-
-[node name="AutoloadHelper" type="Node"]
-script = ExtResource("1_bi6s6")

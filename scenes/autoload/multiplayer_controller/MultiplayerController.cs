@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using TicTacToeMultiplayer.scenes.autoload.models_container;
+using Godot.DependencyInjection.Attributes;
+using JetBrains.Annotations;
 using TicTacToeMultiplayer.scripts.event_bus_system;
 using TicTacToeMultiplayer.scripts.events.lobby;
 using TicTacToeMultiplayer.scripts.models;
@@ -46,11 +47,15 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 		_multiplayerModel.HostIp = ip;
 		_multiplayerModel.HostPort = port;
 	}
+	
+	[Inject] [UsedImplicitly]
+	public void Construct(MultiplayerModel multiplayerModel)
+	{
+		_multiplayerModel = multiplayerModel;
+	}
 
 	public override void _Ready()
 	{
-		_multiplayerModel = ModelsContainer.MultiplayerModel;
-		
 		Multiplayer.PeerConnected += OnPeerConnected;
 		Multiplayer.PeerDisconnected += OnPeerDisconnected;
 		Multiplayer.ConnectedToServer += OnConnectedToServer;

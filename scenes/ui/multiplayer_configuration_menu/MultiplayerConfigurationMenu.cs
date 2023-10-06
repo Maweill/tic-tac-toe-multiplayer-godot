@@ -3,7 +3,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using Godot;
-using TicTacToeMultiplayer.scenes.autoload.models_container;
+using Godot.DependencyInjection.Attributes;
+using JetBrains.Annotations;
 using TicTacToeMultiplayer.scripts.event_bus_system;
 using TicTacToeMultiplayer.scripts.events.game_state;
 using TicTacToeMultiplayer.scripts.events.lobby;
@@ -49,10 +50,15 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 		
 		_isServerActive = false;
 	}
+	
+	[Inject] [UsedImplicitly]
+	public void Construct(MultiplayerModel multiplayerModel)
+	{
+		_multiplayerModel = multiplayerModel;
+	}
 
 	public override void _Ready()
 	{
-		_multiplayerModel = ModelsContainer.MultiplayerModel;
 		RefreshStateFromController();
 		
 		_hostAddressLineEdit.TextChanged += OnHostAddressChanged;

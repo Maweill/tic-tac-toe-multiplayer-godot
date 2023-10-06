@@ -1,6 +1,7 @@
 using System.Linq;
 using Godot;
-using TicTacToeMultiplayer.scenes.autoload.models_container;
+using Godot.DependencyInjection.Attributes;
+using JetBrains.Annotations;
 using TicTacToeMultiplayer.scenes.game_object.cell;
 using TicTacToeMultiplayer.scenes.game_object.grid;
 using TicTacToeMultiplayer.scripts.cell;
@@ -41,11 +42,16 @@ public partial class Gameplay : Node2D, ICellSelectedHandler
 		EventBus.RaiseEvent<IGameOverHandler>(h => h?.HandleGameOver(isDraw, winner));
 	}
 	
+	[Inject] [UsedImplicitly]
+	public void Construct(MultiplayerModel multiplayerModel)
+	{
+		_multiplayerModel = multiplayerModel;
+	}
+	
 	public override void _Ready()
 	{
-		_multiplayerModel = ModelsContainer.MultiplayerModel;
 		EventBus.Subscribe(this);
-
+		
 		_multiplayerModel.Players.ForEach(player => player.Side = CellType.Circle);
 		
 		// Called from client to ensure that all players are ready because server is always ready
