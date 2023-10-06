@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Godot;
-using TicTacToeMultiplayer.scripts.event_bus_system;
-using TicTacToeMultiplayer.scripts.events.models.multiplayer_model;
 using TicTacToeMultiplayer.scripts.multiplayer;
 
 namespace TicTacToeMultiplayer.scripts.models;
 
 public class MultiplayerModel
 {
+	public event Action? Changed;
+	
 	private List<PlayerModel> _players = new();
 	private ENetMultiplayerPeer? _peer;
 	private string? _hostIp;
@@ -28,7 +29,7 @@ public class MultiplayerModel
 		set
 		{
 			_players = value;
-			EventBus.RaiseEvent<IMultiplayerModelChangedHandler>(h => h?.HandleMultiplayerModelChanged(this));
+			Changed?.Invoke();
 		}
 	}
 
@@ -38,7 +39,7 @@ public class MultiplayerModel
 		set
 		{
 			_peer = value;
-			EventBus.RaiseEvent<IMultiplayerModelChangedHandler>(h => h?.HandleMultiplayerModelChanged(this));
+			Changed?.Invoke();
 		}
 	}
 	
@@ -48,7 +49,7 @@ public class MultiplayerModel
 		set
 		{
 			_hostIp = value;
-			EventBus.RaiseEvent<IMultiplayerModelChangedHandler>(h => h?.HandleMultiplayerModelChanged(this));
+			Changed?.Invoke();
 		}
 	}
 
@@ -58,7 +59,7 @@ public class MultiplayerModel
 		set
 		{
 			_hostPort = value;
-			EventBus.RaiseEvent<IMultiplayerModelChangedHandler>(h => h?.HandleMultiplayerModelChanged(this));
+			Changed?.Invoke();
 		}
 	}
 }

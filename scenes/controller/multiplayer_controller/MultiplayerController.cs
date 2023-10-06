@@ -11,7 +11,7 @@ using static Godot.ENetConnection;
 using static Godot.MultiplayerApi;
 using static Godot.MultiplayerPeer;
 
-namespace TicTacToeMultiplayer.scenes.autoload.multiplayer_controller;
+namespace TicTacToeMultiplayer.scenes.controller.multiplayer_controller;
 
 public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAttemptHandler
 {
@@ -29,7 +29,7 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 
 	public void HandleHostAttempt(string ip, int port)
 	{
-		HostGame(ip, port);
+		HostGame(port);
 		AddPlayer(1);
 		
 		_multiplayerModel.HostIp = ip;
@@ -85,7 +85,6 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 		GD.Print("Player Disconnected: " + id);
 		if (id == 1) {
 			_multiplayerModel.Reset();
-			EventBus.RaiseEvent<IServerClosedHandler>(h => h?.HandleServerClosed());
 			return;
 		}
 		List<PlayerModel> players = _multiplayerModel.Players;
@@ -97,7 +96,7 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 		GD.Print("Player Connected! " + id);
 	}
 
-	private void HostGame(string ip, int port)
+	private void HostGame(int port)
 	{
 		ENetMultiplayerPeer peer = new();
 		Error error = peer.CreateServer(port, 2);
@@ -110,7 +109,6 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 		_multiplayerModel.Peer = peer;
 		
 		GD.Print("Waiting For Players!");
-		EventBus.RaiseEvent<IServerCreatedHandler>(h => h?.HandleServerCreated(ip, port));
 	}
 
 	[Rpc(RpcMode.AnyPeer)]

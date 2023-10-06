@@ -13,7 +13,7 @@ using TicTacToeMultiplayer.scripts.multiplayer;
 
 namespace TicTacToeMultiplayer.scenes.ui.multiplayer_configuration_menu;
 
-public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandler, IServerClosedHandler
+public partial class MultiplayerConfigurationMenu : Control
 {
 	[Export]
 	private LineEdit _hostAddressLineEdit = null!;
@@ -25,31 +25,6 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 	private Label _statusLabel = null!;
 	
 	private MultiplayerModel _multiplayerModel = null!;
-	private bool _isServerActive;
-
-	public void HandleServerCreated(string hostIp, int port)
-	{
-		Multiplayer.PeerConnected += OnPeerConnected;
-		Multiplayer.PeerDisconnected += OnPeerDisconnected;
-		
-		_hostAddressLineEdit.Text = $"{hostIp}:{port}";
-		_hostAddressLineEdit.Editable = false;
-		_startGameButton.Visible = true;
-		_startGameButton.Disabled = true;
-		
-		_isServerActive = true;
-	}
-
-	public void HandleServerClosed()
-	{
-		_hostAddressLineEdit.Clear();
-		_hostAddressLineEdit.Editable = true;
-		_connectButton.Disabled = false;
-		_startGameButton.Visible = false;
-		_statusLabel.Visible = false;
-		
-		_isServerActive = false;
-	}
 	
 	[Inject] [UsedImplicitly]
 	public void Construct(MultiplayerModel multiplayerModel)
@@ -59,17 +34,20 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 
 	public override void _Ready()
 	{
-		RefreshStateFromController();
+		UpdateStateFromMultiplayerModel();
 		
 		_hostAddressLineEdit.TextChanged += OnHostAddressChanged;
 		_connectButton.Pressed += OnConnectButtonPressed;
 		_startGameButton.Pressed += OnStartGameButtonPressed;
-		EventBus.Subscribe(this);
+		_multiplayerModel.Changed += UpdateStateFromMultiplayerModel;
+		
+		Multiplayer.PeerConnected += OnPeerConnected;
+		Multiplayer.PeerDisconnected += OnPeerDisconnected;
 	}
 
 	public override void _Process(double delta)
 	{
-		if (_isServerActive && !Multiplayer.IsServer()) {
+		if (_multiplayerModel.Peer != null && !Multiplayer.IsServer()) {
 			return;
 		}
 		List<PlayerModel> players = _multiplayerModel.Players;
@@ -78,7 +56,32 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 
 	public override void _ExitTree()
 	{
-		EventBus.Unsubscribe(this);
+		_multiplayerModel.Changed -= UpdateStateFromMultiplayerModel;
+		Multiplayer.PeerConnected -= OnPeerConnected;
+		Multiplayer.PeerDisconnected -= OnPeerDisconnected;
+	}
+
+	private void UpdateStateFromMultiplayerModel()
+	{
+		// Check if the server was closed
+		if (_multiplayerModel.Peer == null) {
+			_hostAddressLineEdit.Clear();
+			_hostAddressLineEdit.Editable = true;
+			_connectButton.Disabled = false;
+			_startGameButton.Visible = false;
+			_statusLabel.Visible = false;
+			return;
+		}
+		
+		_hostAddressLineEdit.Text = $"{_multiplayerModel.HostIp}:{_multiplayerModel.HostPort}";
+		_hostAddressLineEdit.Editable = false;
+		_startGameButton.Visible = Multiplayer.IsServer();
+		_startGameButton.Disabled = true;
+		_connectButton.Disabled = _multiplayerModel.HostIp != null;
+
+		if (!Multiplayer.IsServer()) {
+			ShowJoinStatus("Connected!\nWait for the host to start the game", new Color(0, 1, 0));
+		}
 	}
 
 	private void OnStartGameButtonPressed()
@@ -137,28 +140,6 @@ public partial class MultiplayerConfigurationMenu : Control, IServerCreatedHandl
 	private void OnHostAddressChanged(string newtext)
 	{
 		_connectButton.Text = newtext.Length > 0 ? "Join" : "Host";
-	}
-
-	private void RefreshStateFromController()
-	{
-		if (_multiplayerModel.Players.Count == 0) {
-			return;
-		}
-		
-		if (Multiplayer.IsServer()) {
-			_hostAddressLineEdit.Text = $"{_multiplayerModel.HostIp}:{_multiplayerModel.HostPort}";
-			_hostAddressLineEdit.Editable = false;
-			
-			_connectButton.Disabled = true;
-			_startGameButton.Visible = true;
-			return;
-		}
-		
-		_hostAddressLineEdit.Text = $"{_multiplayerModel.HostIp}:{_multiplayerModel.HostPort}";
-		_hostAddressLineEdit.Editable = false;
-		_connectButton.Disabled = true;
-		_startGameButton.Visible = false;
-		ShowJoinStatus("Connected!\nWait for the host to start the game", new Color(0, 1, 0));
 	}
 
 	private void ShowJoinStatus(string text, Color color)

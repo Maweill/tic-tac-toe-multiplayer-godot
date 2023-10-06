@@ -1,14 +1,14 @@
 using Godot;
 using Godot.DependencyInjection.Attributes;
 using JetBrains.Annotations;
-using TicTacToeMultiplayer.scenes.autoload.multiplayer_controller;
 using TicTacToeMultiplayer.scenes.ui.game_over_menu;
 using TicTacToeMultiplayer.scripts.event_bus_system;
 using TicTacToeMultiplayer.scripts.events.game_state;
 using TicTacToeMultiplayer.scripts.multiplayer;
 using static Godot.MultiplayerPeer;
+using MultiplayerController = TicTacToeMultiplayer.scenes.controller.multiplayer_controller.MultiplayerController;
 
-namespace TicTacToeMultiplayer.scenes.autoload.game_state_controller;
+namespace TicTacToeMultiplayer.scenes.controller.game_state_controller;
 
 public partial class GameStateController : Node, IGameStartAttemptHandler, IOpenLobbyAttemptHandler, IGameOverHandler
 {
