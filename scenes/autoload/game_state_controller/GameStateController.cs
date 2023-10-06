@@ -1,5 +1,6 @@
 using Godot;
-using TicTacToeMultiplayer.scenes.autoload.autoload_helper;
+using Godot.DependencyInjection.Attributes;
+using JetBrains.Annotations;
 using TicTacToeMultiplayer.scenes.autoload.multiplayer_controller;
 using TicTacToeMultiplayer.scenes.ui.game_over_menu;
 using TicTacToeMultiplayer.scripts.event_bus_system;
@@ -36,11 +37,16 @@ public partial class GameStateController : Node, IGameStartAttemptHandler, IOpen
 		GetTree().CurrentScene.AddChild(gameOverMenu);
 		gameOverMenu.Initialize(isDraw, winner);
 	}
+	
+	[Inject] [UsedImplicitly]
+	public void Construct(MultiplayerController multiplayerController)
+	{
+		_multiplayerController = multiplayerController;
+	}
 
 	public override void _Ready()
 	{
 		RenderingServer.SetDefaultClearColor(new Color("#f1c9d0", 1f));
-		_multiplayerController = AutoloadHelper.GetAutoload<MultiplayerController>();
 		EventBus.Subscribe(this);
 	}
 

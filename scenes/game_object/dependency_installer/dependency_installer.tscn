@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://i0pqyii7b350"]
+
+[ext_resource type="Script" path="res://scenes/game_object/dependency_installer/DependencyInstaller.cs" id="1_ahp32"]
+[ext_resource type="PackedScene" uid="uid://cogwmuciu8lt2" path="res://scenes/autoload/multiplayer_controller/multiplayer_controller.tscn" id="2_fuwjc"]
+[ext_resource type="PackedScene" uid="uid://copuo7hn24l44" path="res://scenes/autoload/game_state_controller/game_state_controller.tscn" id="3_utdkq"]
+
+[node name="DependencyInstaller" type="Node" node_paths=PackedStringArray("_multiplayerController", "_gameStateController")]
+script = ExtResource("1_ahp32")
+_multiplayerController = NodePath("MultiplayerController")
+_gameStateController = NodePath("GameStateController")
+
+[node name="MultiplayerController" parent="." instance=ExtResource("2_fuwjc")]
+
+[node name="GameStateController" parent="." instance=ExtResource("3_utdkq")]

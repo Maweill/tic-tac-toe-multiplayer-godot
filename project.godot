@@ -17,10 +17,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-AutoloadHelper="*res://scenes/autoload/autoload_helper/autoload_helper.tscn"
+DependencyInjectionNode="*res://scripts/dependency_injection/DependencyInjectionNode.cs"
 ModelsContainer="*res://scenes/autoload/models_container/models_container.tscn"
-GameStateController="*res://scenes/autoload/game_state_controller/game_state_controller.tscn"
-MultiplayerController="*res://scenes/autoload/multiplayer_controller/multiplayer_controller.tscn"
+DependencyInstaller="*res://scenes/game_object/dependency_installer/dependency_installer.tscn"
 
 [display]
 

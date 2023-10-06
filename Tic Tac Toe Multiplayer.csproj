@@ -7,4 +7,8 @@
   <ItemGroup>
     <Folder Include="scenes\game_object\grid\" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Godot.DependencyInjection" Version="0.2.3" />
+    <PackageReference Include="JetBrains.Annotations" Version="2023.2.0" />
+  </ItemGroup>
 </Project>
