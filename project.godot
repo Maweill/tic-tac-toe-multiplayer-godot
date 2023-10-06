@@ -18,7 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 DependencyInjectionNode="*res://scripts/dependency_injection/DependencyInjectionNode.cs"
-DependencyInstaller="*res://scenes/game_object/dependency_installer/dependency_installer.tscn"
+DependencyInstaller="*res://scenes/autoload/dependency_installer/dependency_installer.tscn"
 
 [display]
 
