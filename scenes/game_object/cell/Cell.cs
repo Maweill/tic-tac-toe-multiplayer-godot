@@ -13,6 +13,8 @@ namespace TicTacToeMultiplayer.scenes.game_object.cell;
 public partial class Cell : Node2D
 {
 	[Export]
+	private CellBackground _background = null!;
+	[Export]
 	private CellSprite _sprite = null!;
 	[Export]
 	private Area2D _clickableArea = null!;
@@ -32,6 +34,9 @@ public partial class Cell : Node2D
 	public void SetInput(bool active)
 	{
 		_clickableArea.InputPickable = active;
+		_background.SetHovered(false);
+		Input.SetDefaultCursorShape();
+		
 	}
 	
 	[Inject] [UsedImplicitly]
@@ -53,6 +58,8 @@ public partial class Cell : Node2D
 			return;
 		}
 		_sprite.SetTexture(_multiplayerController.Player.Side, true);
+		_background.SetHovered(true);
+		Input.SetDefaultCursorShape(Input.CursorShape.PointingHand);
 	}
 
 	private void OnClickableAreaMouseExited()
@@ -61,6 +68,8 @@ public partial class Cell : Node2D
 			return;
 		}
 		_sprite.SetTexture(CellType.Empty);
+		Input.SetDefaultCursorShape();
+		_background.SetHovered(false);
 	}
 
 	private void OnClickableAreaInputEvent(Node viewport, InputEvent @event, long shapeidx)
