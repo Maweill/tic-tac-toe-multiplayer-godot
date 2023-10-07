@@ -1,9 +1,11 @@
 using Godot;
+using Godot.DependencyInjection.Attributes;
+using JetBrains.Annotations;
+using TicTacToeMultiplayer.scenes.controller.multiplayer_controller;
 using TicTacToeMultiplayer.scripts.cell;
 using TicTacToeMultiplayer.scripts.event_bus_system;
 using TicTacToeMultiplayer.scripts.events.cell;
 using TicTacToeMultiplayer.scripts.multiplayer;
-using static Godot.MultiplayerApi;
 using static Godot.MultiplayerPeer;
 
 namespace TicTacToeMultiplayer.scenes.game_object.cell;
@@ -14,6 +16,8 @@ public partial class Cell : Node2D
 	private CellSprite _sprite = null!;
 	[Export]
 	private Area2D _clickableArea = null!;
+	
+	private MultiplayerController _multiplayerController = null!;
 	
 	public CellType CellType { get; private set; } = CellType.Empty;
 	public PlayerModel? Player { get; private set; }
@@ -29,10 +33,34 @@ public partial class Cell : Node2D
 	{
 		_clickableArea.InputPickable = active;
 	}
+	
+	[Inject] [UsedImplicitly]
+	public void Construct(MultiplayerController multiplayerController)
+	{
+		_multiplayerController = multiplayerController;
+	}
 
 	public override void _Ready()
 	{
 		_clickableArea.InputEvent += OnClickableAreaInputEvent;
+		_clickableArea.MouseEntered += OnClickableAreaMouseEntered;
+		_clickableArea.MouseExited += OnClickableAreaMouseExited;
+	}
+
+	private void OnClickableAreaMouseEntered()
+	{
+		if (CellType != CellType.Empty) {
+			return;
+		}
+		_sprite.SetTexture(_multiplayerController.Player.Side, true);
+	}
+
+	private void OnClickableAreaMouseExited()
+	{
+		if (CellType != CellType.Empty) {
+			return;
+		}
+		_sprite.SetTexture(CellType.Empty);
 	}
 
 	private void OnClickableAreaInputEvent(Node viewport, InputEvent @event, long shapeidx)

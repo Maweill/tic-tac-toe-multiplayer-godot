@@ -10,7 +10,7 @@ public partial class CellSprite : Sprite2D
 	[Export]
 	private CompressedTexture2D _circleTexture = null!;
 
-	public void SetTexture(CellType cellType)
+	public void SetTexture(CellType cellType, bool transparent = false)
 	{
 		switch (cellType) {
 			case CellType.Empty:
@@ -23,5 +23,7 @@ public partial class CellSprite : Sprite2D
 				Texture = _circleTexture;
 				break;
 		}
+
+		Modulate = transparent ? new Color(1, 1, 1, 0.5f) : new Color(1, 1, 1);
 	}
 }
