@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ccpcile5xk0sk"]
+[gd_scene load_steps=11 format=3 uid="uid://ccpcile5xk0sk"]
 
 [ext_resource type="Script" path="res://scenes/game_object/cell/Cell.cs" id="1_2u365"]
 [ext_resource type="Texture2D" uid="uid://bixj03o5pgpka" path="res://assets/sprites/cross.png" id="2_482ix"]
@@ -7,14 +7,58 @@
 [ext_resource type="Texture2D" uid="uid://bfnkfs77rwpcn" path="res://assets/sprites/circle.png" id="3_co7nd"]
 [ext_resource type="Script" path="res://scenes/game_object/cell/CellBackground.cs" id="3_oskes"]
 
+[sub_resource type="Animation" id="Animation_p574e"]
+resource_name = "select"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 0.5, 1),
+"update": 0,
+"values": [Vector2(0.5, 0.5), Vector2(0.4, 0.4), Vector2(0.6, 0.6), Vector2(0.5, 0.5)]
+}
+
+[sub_resource type="Animation" id="Animation_2dbpt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.5, 0.5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6cpbl"]
+_data = {
+"RESET": SubResource("Animation_2dbpt"),
+"select": SubResource("Animation_p574e")
+}
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5llwe"]
 size = Vector2(275, 275)
 
-[node name="Cell" type="Node2D" node_paths=PackedStringArray("_background", "_sprite", "_clickableArea")]
+[node name="Cell" type="Node2D" node_paths=PackedStringArray("_background", "_sprite", "_clickableArea", "_animationPlayer")]
 script = ExtResource("1_2u365")
 _background = NodePath("Background")
 _sprite = NodePath("Sprite")
 _clickableArea = NodePath("ClickableArea")
+_animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6cpbl")
+}
 
 [node name="Background" type="Sprite2D" parent="."]
 scale = Vector2(0.505, 0.505)

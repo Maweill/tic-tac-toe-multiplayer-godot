@@ -18,6 +18,8 @@ public partial class Cell : Node2D
 	private CellSprite _sprite = null!;
 	[Export]
 	private Area2D _clickableArea = null!;
+	[Export]
+	private AnimationPlayer _animationPlayer = null!;
 	
 	private MultiplayerController _multiplayerController = null!;
 	
@@ -29,6 +31,7 @@ public partial class Cell : Node2D
 		_sprite.SetTexture(player.Side);
 		CellType = player.Side;
 		Player = player;
+		_animationPlayer.Play("select");
 	}
 
 	public void SetInput(bool active)
