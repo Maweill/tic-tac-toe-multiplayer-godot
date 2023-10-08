@@ -7,6 +7,8 @@ script = ExtResource("1_b1iac")
 _resultHeaderLabel = NodePath("ResultPanel/MarginContainer/VBoxContainer/MarginContainer/Header")
 _openLobbyButton = NodePath("ResultPanel/MarginContainer/VBoxContainer/OpenLobby")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,7 +18,7 @@ grow_vertical = 2
 color = Color(0.235294, 0.235294, 0.235294, 0.94902)
 
 [node name="ResultPanel" type="Panel" parent="."]
-custom_minimum_size = Vector2(400, 280)
+custom_minimum_size = Vector2(400, 250)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -52,8 +54,9 @@ theme_override_constants/margin_bottom = 20
 [node name="Header" type="Label" parent="ResultPanel/MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_font_sizes/font_size = 30
-text = "You lost :("
+theme_override_font_sizes/font_size = 40
+text = "😭
+You lost!"
 horizontal_alignment = 1
 vertical_alignment = 1
 

@@ -14,7 +14,7 @@ public partial class GameOverMenu : CanvasLayer
 
 	public void Initialize(bool isDraw, PlayerModel? winner)
 	{
-		_resultHeaderLabel.Text = isDraw ? "Draw!" : (Multiplayer.GetUniqueId() == winner!.Id ? "You won!" : "You lost :(");
+		_resultHeaderLabel.Text = isDraw ? "Draw!" : (Multiplayer.GetUniqueId() == winner!.Id ? "😄\nYou won!" : "😭\nYou lost!");
 	}
 
 	public override void _Ready()

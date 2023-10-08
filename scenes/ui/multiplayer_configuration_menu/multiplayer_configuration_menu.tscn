@@ -10,14 +10,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3ndig")
-_hostAddressLineEdit = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/HostAddress")
-_connectButton = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/Connect")
+_hostAddressLineEdit = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer3/HostAddress")
+_connectButton = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2/Connect")
 _startGameButton = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2/StartGame")
 _statusLabel = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2/Status")
 metadata/_edit_use_anchors_ = true
 
 [node name="ConnectionPanel" type="Panel" parent="."]
-custom_minimum_size = Vector2(400, 280)
+custom_minimum_size = Vector2(400, 250)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -25,9 +25,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -200.0
-offset_top = -100.0
+offset_top = -140.0
 offset_right = 200.0
-offset_bottom = 100.0
+offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -48,37 +48,40 @@ layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="ConnectionPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_bottom = 35
 
 [node name="Header" type="Label" parent="ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 30
-text = "Host or join a server"
+text = "📡Host or join a server🧑‍🤝‍🧑"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HostAddress" type="LineEdit" parent="ConnectionPanel/MarginContainer/VBoxContainer"]
+[node name="MarginContainer3" type="MarginContainer" parent="ConnectionPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 10
+
+[node name="HostAddress" type="LineEdit" parent="ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer3"]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_vertical = 4
 placeholder_text = "Enter host address to join"
 alignment = 1
-clear_button_enabled = true
 
-[node name="Connect" type="Button" parent="ConnectionPanel/MarginContainer/VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="ConnectionPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Connect" type="Button" parent="ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 20
 text = "Host"
 
-[node name="MarginContainer2" type="MarginContainer" parent="ConnectionPanel/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_top = 25
-
 [node name="StartGame" type="Button" parent="ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2"]
 visible = false
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 20

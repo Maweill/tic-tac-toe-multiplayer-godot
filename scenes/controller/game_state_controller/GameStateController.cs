@@ -48,7 +48,7 @@ public partial class GameStateController : Node, IGameStartAttemptHandler, IOpen
 
 	public override void _Ready()
 	{
-		RenderingServer.SetDefaultClearColor(new Color("#f1c9d0", 1f));
+		RenderingServer.SetDefaultClearColor(new Color("#00A4F5", 1f));
 		EventBus.Subscribe(this);
 	}
 

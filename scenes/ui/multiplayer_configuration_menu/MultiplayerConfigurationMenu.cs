@@ -67,7 +67,7 @@ public partial class MultiplayerConfigurationMenu : Control
 		if (_multiplayerModel.Peer == null) {
 			_hostAddressLineEdit.Clear();
 			_hostAddressLineEdit.Editable = true;
-			_connectButton.Disabled = false;
+			_connectButton.Visible = true;
 			_startGameButton.Visible = false;
 			_statusLabel.Visible = false;
 			return;
@@ -77,10 +77,10 @@ public partial class MultiplayerConfigurationMenu : Control
 		_hostAddressLineEdit.Editable = false;
 		_startGameButton.Visible = Multiplayer.IsServer();
 		_startGameButton.Disabled = true;
-		_connectButton.Disabled = _multiplayerModel.HostIp != null;
+		_connectButton.Visible = _multiplayerModel.HostIp == null;
 
 		if (!Multiplayer.IsServer()) {
-			ShowJoinStatus("Connected!\nWait for the host to start the game", new Color(0, 1, 0));
+			ShowStatus("Connected!\nWait for the host to start the game", new Color("#00c100"));
 		}
 	}
 
@@ -92,7 +92,7 @@ public partial class MultiplayerConfigurationMenu : Control
 	private void OnConnectButtonPressed()
 	{
 		_hostAddressLineEdit.Editable = false;
-		_connectButton.Disabled = true;
+		_connectButton.Visible = false;
 		
 		if (_hostAddressLineEdit.Text.Length > 0) {
 			Multiplayer.ConnectedToServer += OnConnectedToServer;
@@ -125,7 +125,7 @@ public partial class MultiplayerConfigurationMenu : Control
 	{
 		Multiplayer.ConnectedToServer -= OnConnectedToServer;
 		
-		ShowJoinStatus("Connected!\nWait for the host to start the game", new Color(0, 1, 0));
+		ShowStatus("Connected!\nWait for the host to start the game", new Color("#00c100"));
 	}
 
 	private void OnConnectionFailed()
@@ -133,8 +133,8 @@ public partial class MultiplayerConfigurationMenu : Control
 		Multiplayer.ConnectionFailed -= OnConnectionFailed;
 		
 		_hostAddressLineEdit.Editable = true;
-		_connectButton.Disabled = false;
-		ShowJoinStatus("Connection failed", new Color(1, 0, 0));
+		_connectButton.Visible = true;
+		ShowStatus("Connection failed", new Color("#db0031"));
 	}
 
 	private void OnHostAddressChanged(string newtext)
@@ -142,7 +142,7 @@ public partial class MultiplayerConfigurationMenu : Control
 		_connectButton.Text = newtext.Length > 0 ? "Join" : "Host";
 	}
 
-	private void ShowJoinStatus(string text, Color color)
+	private void ShowStatus(string text, Color color)
 	{
 		_statusLabel.Text = text;
 		_statusLabel.AddThemeColorOverride("font_color", color);
@@ -164,8 +164,7 @@ public partial class MultiplayerConfigurationMenu : Control
 		using (Socket socket = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
 		{
 			socket.Bind(new IPEndPoint(IPAddress.Any, 0));
-			IPEndPoint? ipEndPoint = socket.LocalEndPoint as IPEndPoint;
-			if (ipEndPoint == null) {
+			if (socket.LocalEndPoint is not IPEndPoint ipEndPoint) {
 				throw new System.Exception("Could not get local IP address");
 			}
 			return ipEndPoint.Port;
