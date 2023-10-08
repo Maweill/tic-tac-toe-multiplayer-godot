@@ -135,6 +135,6 @@ public partial class MultiplayerController : Node, IHostAttemptHandler, IJoinAtt
 
 	public PlayerModel Player
 	{
-		get { return _multiplayerModel.Players.First(player => player.Id == Multiplayer.GetUniqueId()); }
+		get => _multiplayerModel.Players.First(player => player.Id == Multiplayer.GetUniqueId());
 	}
 }
