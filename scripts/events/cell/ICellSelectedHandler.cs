@@ -1,4 +1,5 @@
-﻿using Tetramino.scripts.event_bus_system;
+﻿using System.Threading.Tasks;
+using Tetramino.scripts.event_bus_system;
 using TicTacToeMultiplayer.scenes.game_object.cell;
 
 namespace TicTacToeMultiplayer.scripts.events.cell;

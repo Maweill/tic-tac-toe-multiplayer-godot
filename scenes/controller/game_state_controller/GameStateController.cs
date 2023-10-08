@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using Godot;
 using Godot.DependencyInjection.Attributes;
 using JetBrains.Annotations;
+using TicTacToeMultiplayer.scenes.game_object.cell;
 using TicTacToeMultiplayer.scenes.ui.game_over_menu;
 using TicTacToeMultiplayer.scripts.event_bus_system;
 using TicTacToeMultiplayer.scripts.events.game_state;
@@ -31,7 +33,7 @@ public partial class GameStateController : Node, IGameStartAttemptHandler, IOpen
 		Rpc(nameof(StartGameplay));
 	}
 
-	public void HandleGameOver(bool isDraw, PlayerModel? winner = null)
+	public void HandleGameOver(bool isDraw, PlayerModel? winner, List<Cell>? winCells)
 	{
 		GameOverMenu gameOverMenu = _gameOverMenuScene.Instantiate<GameOverMenu>();
 		GetTree().CurrentScene.AddChild(gameOverMenu);

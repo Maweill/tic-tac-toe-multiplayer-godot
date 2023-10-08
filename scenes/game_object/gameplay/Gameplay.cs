@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 using Godot.DependencyInjection.Attributes;
 using JetBrains.Annotations;
@@ -32,14 +34,30 @@ public partial class Gameplay : Node2D, ICellSelectedHandler
 		_activePlayer = _multiplayerModel.Players.First(player => player.Id != _activePlayer.Id);
 		_grid.SetActivePlayer(_activePlayer.Id);
 
-		if (!_gameOverChecker.IsGameOver(_grid, out bool isDraw, out PlayerModel? winner)) {
+		if (!_gameOverChecker.IsGameOver(_grid, out bool isDraw, out PlayerModel? winner, out List<Cell>? winCells)) {
 			return;
 		}
+		
+		HandleGameOver(isDraw, winner, winCells);
+	}
+
+	private async void HandleGameOver(bool isDraw, PlayerModel? winner, List<Cell>? winCells)
+	{
+		GD.Print("Game over.");
 		_grid.SetInput(false);
-		//TODO Show cross line animation
-		//TODO Show game over screen after animation is finished
-		GD.Print($"Game over.");
-		EventBus.RaiseEvent<IGameOverHandler>(h => h?.HandleGameOver(isDraw, winner));
+		if (!isDraw) {
+			await MarkWinCells();
+		}
+		await ToSignal(GetTree().CreateTimer(1f), Timer.SignalName.Timeout);
+		EventBus.RaiseEvent<IGameOverHandler>(h => h?.HandleGameOver(isDraw, winner, winCells));
+		return;
+
+		async Task MarkWinCells()
+		{
+			foreach (Cell winCell in winCells!) {
+				await winCell.MarkAsWin();
+			}
+		}
 	}
 	
 	[Inject] [UsedImplicitly]

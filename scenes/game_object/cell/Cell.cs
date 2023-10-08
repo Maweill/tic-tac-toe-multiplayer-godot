@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Godot;
 using Godot.DependencyInjection.Attributes;
 using JetBrains.Annotations;
@@ -25,7 +26,7 @@ public partial class Cell : Node2D
 	
 	public CellType CellType { get; private set; } = CellType.Empty;
 	public PlayerModel? Player { get; private set; }
-	
+
 	public void Select(PlayerModel player)
 	{
 		_sprite.SetTexture(player.Side);
@@ -41,7 +42,13 @@ public partial class Cell : Node2D
 		Input.SetDefaultCursorShape();
 		
 	}
-	
+
+	public async Task MarkAsWin()
+	{
+		_animationPlayer.Play("win");
+		await ToSignal(_animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
+	}
+
 	[Inject] [UsedImplicitly]
 	public void Construct(MultiplayerController multiplayerController)
 	{
@@ -83,7 +90,7 @@ public partial class Cell : Node2D
 		SetInput(false);
 		Rpc(nameof(OnCellClicked));
 	}
-	
+
 	[Rpc(CallLocal = true, TransferMode = TransferModeEnum.Reliable)]
 	private void OnCellClicked()
 	{

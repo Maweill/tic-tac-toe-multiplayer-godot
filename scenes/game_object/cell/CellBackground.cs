@@ -8,6 +8,8 @@ public partial class CellBackground : Sprite2D
 	private Color _defaultColor;
 	[Export]
 	private Color _hoveredColor;
+	[Export]
+	private Color _winColor;
 	
 	public void SetHovered(bool hovered)
 	{
