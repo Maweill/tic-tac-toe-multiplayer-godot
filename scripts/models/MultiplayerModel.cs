@@ -26,7 +26,7 @@ public class MultiplayerModel
 	
 	public List<PlayerModel> Players
 	{
-		get { return _players; }
+		get => _players;
 		set
 		{
 			_players = value;
@@ -36,7 +36,7 @@ public class MultiplayerModel
 
 	public ENetMultiplayerPeer? Peer
 	{
-		get { return _peer; }
+		get => _peer;
 		set
 		{
 			_peer = value;
@@ -46,7 +46,7 @@ public class MultiplayerModel
 	
 	public string? HostIp
 	{
-		get { return _hostIp; }
+		get => _hostIp;
 		set
 		{
 			_hostIp = value;
@@ -56,7 +56,7 @@ public class MultiplayerModel
 
 	public int HostPort
 	{
-		get { return _hostPort; }
+		get => _hostPort;
 		set
 		{
 			_hostPort = value;
