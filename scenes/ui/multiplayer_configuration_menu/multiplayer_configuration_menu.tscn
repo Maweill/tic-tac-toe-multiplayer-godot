@@ -68,7 +68,7 @@ theme_override_constants/margin_bottom = 10
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_vertical = 4
-placeholder_text = "Enter host address to join"
+placeholder_text = "Enter IP address with port"
 alignment = 1
 
 [node name="MarginContainer2" type="MarginContainer" parent="ConnectionPanel/MarginContainer/VBoxContainer"]
