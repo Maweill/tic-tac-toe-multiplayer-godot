@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/ui/multiplayer_configuration_menu/MultiplayerConfigurationMenu.cs" id="1_3ndig"]
 
-[node name="MultiplayerConfigurationMenu" type="Control" node_paths=PackedStringArray("_hostAddressLineEdit", "_connectButton", "_startGameButton", "_statusLabel")]
+[node name="MultiplayerConfigurationMenu" type="Control" node_paths=PackedStringArray("_hostAddressLineEdit", "_hostButton", "_joinButton", "_connectionButtonsContainer", "_startGameButton", "_statusLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3ndig")
 _hostAddressLineEdit = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer3/HostAddress")
-_connectButton = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2/Connect")
+_hostButton = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2/ConnectionButtons/Host")
+_joinButton = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2/ConnectionButtons/Join")
+_connectionButtonsContainer = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2/ConnectionButtons")
 _startGameButton = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2/StartGame")
 _statusLabel = NodePath("ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2/Status")
 metadata/_edit_use_anchors_ = true
@@ -72,12 +74,24 @@ alignment = 1
 [node name="MarginContainer2" type="MarginContainer" parent="ConnectionPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Connect" type="Button" parent="ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2"]
+[node name="ConnectionButtons" type="HBoxContainer" parent="ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="Host" type="Button" parent="ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2/ConnectionButtons"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 20
 text = "Host"
+
+[node name="Join" type="Button" parent="ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2/ConnectionButtons"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 20
+text = "Join"
 
 [node name="StartGame" type="Button" parent="ConnectionPanel/MarginContainer/VBoxContainer/MarginContainer2"]
 visible = false

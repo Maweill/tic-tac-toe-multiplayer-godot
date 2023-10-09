@@ -18,7 +18,11 @@ public partial class MultiplayerConfigurationMenu : Control
 	[Export]
 	private LineEdit _hostAddressLineEdit = null!;
 	[Export]
-	private Button _connectButton = null!;
+	private Button _hostButton = null!;
+	[Export]
+	private Button _joinButton = null!;
+	[Export]
+	private HBoxContainer _connectionButtonsContainer = null!;
 	[Export]
 	private Button _startGameButton = null!;
 	[Export]
@@ -37,12 +41,35 @@ public partial class MultiplayerConfigurationMenu : Control
 		UpdateStateFromMultiplayerModel();
 		
 		_hostAddressLineEdit.TextChanged += OnHostAddressChanged;
-		_connectButton.Pressed += OnConnectButtonPressed;
+		_hostButton.Pressed += OnHostButtonPressed;
+		_joinButton.Pressed += OnJoinButtonPressed;
 		_startGameButton.Pressed += OnStartGameButtonPressed;
 		_multiplayerModel.Changed += UpdateStateFromMultiplayerModel;
 		
 		Multiplayer.PeerConnected += OnPeerConnected;
 		Multiplayer.PeerDisconnected += OnPeerDisconnected;
+	}
+
+	private void OnHostButtonPressed()
+	{
+		_hostAddressLineEdit.Editable = false;
+		_connectionButtonsContainer.Visible = false;
+		
+		string[] hostAddressParts = _hostAddressLineEdit.Text.Split(':');
+		string hostAddress = hostAddressParts[0];
+		int port = int.Parse(hostAddressParts[1]);
+		EventBus.RaiseEvent<IHostAttemptHandler>(h => h?.HandleHostAttempt(hostAddress, port));
+	}
+
+	private void OnJoinButtonPressed()
+	{
+		_hostAddressLineEdit.Editable = false;
+		_connectionButtonsContainer.Visible = false;
+		
+		string[] hostAddressParts = _hostAddressLineEdit.Text.Split(':');
+		string hostAddress = hostAddressParts[0];
+		int port = int.Parse(hostAddressParts[1]);
+		EventBus.RaiseEvent<IJoinAttemptHandler>(h => h?.HandleJoinAttempt(hostAddress, port));
 	}
 
 	public override void _Process(double delta)
@@ -67,7 +94,7 @@ public partial class MultiplayerConfigurationMenu : Control
 		if (_multiplayerModel.Peer == null) {
 			_hostAddressLineEdit.Clear();
 			_hostAddressLineEdit.Editable = true;
-			_connectButton.Visible = true;
+			_connectionButtonsContainer.Visible = true;
 			_startGameButton.Visible = false;
 			_statusLabel.Visible = false;
 			return;
@@ -77,7 +104,7 @@ public partial class MultiplayerConfigurationMenu : Control
 		_hostAddressLineEdit.Editable = false;
 		_startGameButton.Visible = Multiplayer.IsServer();
 		_startGameButton.Disabled = true;
-		_connectButton.Visible = _multiplayerModel.HostIp == null;
+		_connectionButtonsContainer.Visible = _multiplayerModel.HostIp == null;
 
 		if (!Multiplayer.IsServer()) {
 			ShowStatus("Connected!\nWait for the host to start the game", new Color("#00c100"));
@@ -87,25 +114,6 @@ public partial class MultiplayerConfigurationMenu : Control
 	private void OnStartGameButtonPressed()
 	{
 		EventBus.RaiseEvent<IGameStartAttemptHandler>(h => h?.HandleGameStartAttempt());
-	}
-
-	private void OnConnectButtonPressed()
-	{
-		_hostAddressLineEdit.Editable = false;
-		_connectButton.Visible = false;
-		
-		if (_hostAddressLineEdit.Text.Length > 0) {
-			Multiplayer.ConnectedToServer += OnConnectedToServer;
-			Multiplayer.ConnectionFailed += OnConnectionFailed;
-			
-			string[] hostAddressParts = _hostAddressLineEdit.Text.Split(':');
-			string hostAddress = hostAddressParts[0];
-			int port = int.Parse(hostAddressParts[1]);
-			EventBus.RaiseEvent<IJoinAttemptHandler>(h => h?.HandleJoinAttempt(hostAddress, port));
-		} else {
-			string localAddress = GetLocalAddress();
-			EventBus.RaiseEvent<IHostAttemptHandler>(h => h?.HandleHostAttempt(localAddress, GetAvailablePort()));
-		}
 	}
 
 	private void OnPeerConnected(long id)
@@ -133,13 +141,14 @@ public partial class MultiplayerConfigurationMenu : Control
 		Multiplayer.ConnectionFailed -= OnConnectionFailed;
 		
 		_hostAddressLineEdit.Editable = true;
-		_connectButton.Visible = true;
+		_connectionButtonsContainer.Visible = true;
 		ShowStatus("Connection failed", new Color("#db0031"));
 	}
 
 	private void OnHostAddressChanged(string newtext)
 	{
-		_connectButton.Text = newtext.Length > 0 ? "Join" : "Host";
+		_hostButton.Disabled = newtext.Length == 0;
+		_joinButton.Disabled = newtext.Length == 0;
 	}
 
 	private void ShowStatus(string text, Color color)
@@ -153,6 +162,8 @@ public partial class MultiplayerConfigurationMenu : Control
 	{
 		string hostName = Dns.GetHostName();
 		IPHostEntry hostEntry = Dns.GetHostEntry(hostName);
+		// Print address list
+		GD.Print(string.Join(", ", hostEntry.AddressList.Select(ip => ip.ToString())));
 		List<string> localAddresses = hostEntry.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork)
 		                                       .Select(ip => ip.ToString())
 		                                       .ToList();
