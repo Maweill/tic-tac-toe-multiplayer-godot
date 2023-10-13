@@ -57,8 +57,11 @@ public partial class MultiplayerConfigurationMenu : Control
 		
 		string[] hostAddressParts = _hostAddressLineEdit.Text.Split(':');
 		string hostAddress = hostAddressParts[0];
-		int port = int.Parse(hostAddressParts[1]);
-		EventBus.RaiseEvent<IHostAttemptHandler>(h => h?.HandleHostAttempt(hostAddress, port));
+		if (!int.TryParse(hostAddressParts[1], out int parsedPort)) {
+			GD.PrintErr($"Could not parse port from host address {_hostAddressLineEdit.Text}");
+			return;
+		}
+		EventBus.RaiseEvent<IHostAttemptHandler>(h => h?.HandleHostAttempt(hostAddress, parsedPort));
 	}
 
 	private void OnJoinButtonPressed()
@@ -68,8 +71,11 @@ public partial class MultiplayerConfigurationMenu : Control
 		
 		string[] hostAddressParts = _hostAddressLineEdit.Text.Split(':');
 		string hostAddress = hostAddressParts[0];
-		int port = int.Parse(hostAddressParts[1]);
-		EventBus.RaiseEvent<IJoinAttemptHandler>(h => h?.HandleJoinAttempt(hostAddress, port));
+		if (!int.TryParse(hostAddressParts[1], out int parsedPort)) {
+			GD.PrintErr($"Could not parse port from host address {_hostAddressLineEdit.Text}");
+			return;
+		}
+		EventBus.RaiseEvent<IJoinAttemptHandler>(h => h?.HandleJoinAttempt(hostAddress, parsedPort));
 	}
 
 	public override void _Process(double delta)
@@ -172,13 +178,11 @@ public partial class MultiplayerConfigurationMenu : Control
 
 	private int GetAvailablePort()
 	{
-		using (Socket socket = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
-		{
-			socket.Bind(new IPEndPoint(IPAddress.Any, 0));
-			if (socket.LocalEndPoint is not IPEndPoint ipEndPoint) {
-				throw new System.Exception("Could not get local IP address");
-			}
-			return ipEndPoint.Port;
+		using Socket socket = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+		socket.Bind(new IPEndPoint(IPAddress.Any, 0));
+		if (socket.LocalEndPoint is not IPEndPoint ipEndPoint) {
+			throw new System.Exception("Could not get local IP address");
 		}
+		return ipEndPoint.Port;
 	}
 }

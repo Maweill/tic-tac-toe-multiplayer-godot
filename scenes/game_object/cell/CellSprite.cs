@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using TicTacToeMultiplayer.scripts.cell;
 
@@ -22,6 +23,8 @@ public partial class CellSprite : Sprite2D
 			case CellType.Circle:
 				Texture = _circleTexture;
 				break;
+			default:
+				throw new ArgumentException($"Unknown cell type: {cellType}");
 		}
 
 		Modulate = transparent ? new Color(1, 1, 1, 0.5f) : new Color(1, 1, 1);

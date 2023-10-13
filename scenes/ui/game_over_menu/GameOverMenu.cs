@@ -1,10 +1,7 @@
 using Godot;
-using Godot.DependencyInjection.Attributes;
-using JetBrains.Annotations;
 using TicTacToeMultiplayer.scenes.controller.multiplayer_controller;
 using TicTacToeMultiplayer.scripts.event_bus_system;
 using TicTacToeMultiplayer.scripts.events.game_state;
-using TicTacToeMultiplayer.scripts.multiplayer;
 
 namespace TicTacToeMultiplayer.scenes.ui.game_over_menu;
 
@@ -19,12 +16,15 @@ public partial class GameOverMenu : CanvasLayer
 
 	private MultiplayerController _multiplayerController = null!;
 	
-	private string _resultHeader = null!;
 	private bool _isWin;
 	
 	public void Initialize(bool isDraw, bool isWinner)
 	{
-		_resultHeaderLabel.Text = isDraw ? "Draw!" : (isWinner ? "😄\nYou won!" : "😭\nYou lost!");
+		if (isDraw) {
+			_resultHeaderLabel.Text = "Draw!";
+		} else {
+			_resultHeaderLabel.Text = isWinner ? "😄\nYou won!" : "😭\nYou lost!";
+		}
 		_isWin = !isDraw && isWinner;
 	}
 
