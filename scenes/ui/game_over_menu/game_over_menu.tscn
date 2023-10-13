@@ -1,11 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://lac5ddhvv0ps"]
+[gd_scene load_steps=5 format=3 uid="uid://lac5ddhvv0ps"]
 
 [ext_resource type="Script" path="res://scenes/ui/game_over_menu/GameOverMenu.cs" id="1_b1iac"]
+[ext_resource type="Script" path="res://scenes/ui/game_over_menu/GameOverSoundPlayer.cs" id="2_ocd6e"]
+[ext_resource type="AudioStream" uid="uid://b7qelcresxeft" path="res://assets/sounds/win.wav" id="3_pa83h"]
+[ext_resource type="AudioStream" uid="uid://begbvhtik8aia" path="res://assets/sounds/lose.wav" id="4_jjffv"]
 
-[node name="GameOverMenu" type="CanvasLayer" node_paths=PackedStringArray("_resultHeaderLabel", "_openLobbyButton")]
+[node name="GameOverMenu" type="CanvasLayer" node_paths=PackedStringArray("_resultHeaderLabel", "_openLobbyButton", "_soundPlayer")]
 script = ExtResource("1_b1iac")
 _resultHeaderLabel = NodePath("ResultPanel/MarginContainer/VBoxContainer/MarginContainer/Header")
 _openLobbyButton = NodePath("ResultPanel/MarginContainer/VBoxContainer/OpenLobby")
+_soundPlayer = NodePath("SoundPlayer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
@@ -66,3 +70,9 @@ layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 20
 text = "Return to Lobby"
+
+[node name="SoundPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -5.0
+script = ExtResource("2_ocd6e")
+_winSound = ExtResource("3_pa83h")
+_loseSound = ExtResource("4_jjffv")

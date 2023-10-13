@@ -36,8 +36,9 @@ public partial class GameStateController : Node, IGameStartAttemptHandler, IOpen
 	public void HandleGameOver(bool isDraw, PlayerModel? winner, List<Cell>? winCells)
 	{
 		GameOverMenu gameOverMenu = _gameOverMenuScene.Instantiate<GameOverMenu>();
+		bool isWinner = _multiplayerController.Player.Id == winner?.Id;
+		gameOverMenu.Initialize(isDraw, isWinner);
 		GetTree().CurrentScene.AddChild(gameOverMenu);
-		gameOverMenu.Initialize(isDraw, winner);
 	}
 	
 	[Inject] [UsedImplicitly]
